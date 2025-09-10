@@ -1,0 +1,311 @@
+ASSIGNMENT - 3
+
+SET A
+
+1)
+class Circle {
+    double radius;
+
+    Circle(double r) {
+        radius = r;
+    }
+
+    double area() {
+        return Math.PI * radius * radius;
+    }
+}
+
+class Cylinder extends Circle {
+    double height;
+
+    Cylinder(double r, double h) {
+        super(r);
+        height = h;
+    }
+
+    double area() {
+        return (2 * Math.PI * radius * height) + (2 * super.area());
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Circle c = new Circle(5);
+        System.out.println("Area of Circle: " + c.area());
+
+        Cylinder cy = new Cylinder(5, 10);
+        System.out.println("Surface Area of Cylinder: " + cy.area());
+    }
+}
+
+4)
+class Student {
+    int rollno;
+    String name;
+    static int count;
+
+    Student() {
+        count++;
+    }
+
+    Student(int r, String n) {
+        rollno = r;
+        name = n;
+        count++;
+    }
+
+    public String toString() {
+        return "Roll No: " + rollno + ", Name: " + name;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Student s1 = new Student(1, "Amit");
+        System.out.println(s1);
+        System.out.println("Object Count: " + Student.count);
+
+        Student s2 = new Student(2, "Riya");
+        System.out.println(s2);
+        System.out.println("Object Count: " + Student.count);
+
+        Student s3 = new Student(3, "Sam");
+        System.out.println(s3);
+        System.out.println("Object Count: " + Student.count);
+    }
+}
+
+5)
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        ArrayList<Integer> list = new ArrayList<>();
+        System.out.print("Enter n: ");
+        int n = sc.nextInt();
+        for (int i = 0; i < n; i++) list.add(sc.nextInt());
+        Collections.reverse(list);
+        System.out.println("Reversed List: " + list);
+    }
+}
+
+SET B
+
+1)
+abstract class Shape {
+    abstract double calc_area();
+    abstract double calc_volume();
+}
+
+class Sphere extends Shape {
+    double r;
+    Sphere(double r) { this.r = r; }
+    double calc_area() { return 4 * Math.PI * r * r; }
+    double calc_volume() { return (4.0 / 3) * Math.PI * r * r * r; }
+}
+
+class Cone extends Shape {
+    double r, h;
+    Cone(double r, double h) { this.r = r; this.h = h; }
+    double calc_area() { return Math.PI * r * (r + Math.sqrt(h * h + r * r)); }
+    double calc_volume() { return (Math.PI * r * r * h) / 3; }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Shape s1 = new Sphere(5);
+        System.out.println("Sphere Area: " + s1.calc_area());
+        System.out.println("Sphere Volume: " + s1.calc_volume());
+        Shape s2 = new Cone(3, 7);
+        System.out.println("Cone Area: " + s2.calc_area());
+        System.out.println("Cone Volume: " + s2.calc_volume());
+    }
+}
+
+2)
+import java.util.*;
+
+class Employee {
+    private int id;
+    private String name, dept;
+    private double salary;
+    Employee() {}
+    Employee(int id, String name, String dept, double salary) {
+        this.id = id; this.name = name; this.dept = dept; this.salary = salary;
+    }
+    public void accept(Scanner sc) {
+        id = sc.nextInt(); name = sc.next(); dept = sc.next(); salary = sc.nextDouble();
+    }
+    public void display() {
+        System.out.print("ID:" + id + " Name:" + name + " Dept:" + dept + " Salary:" + salary);
+    }
+    public double getSalary() { return salary; }
+}
+
+class Manager extends Employee {
+    private double bonus;
+    Manager() {}
+    Manager(int id, String name, String dept, double salary, double bonus) {
+        super(id, name, dept, salary); this.bonus = bonus;
+    }
+    public void accept(Scanner sc) {
+        super.accept(sc); bonus = sc.nextDouble();
+    }
+    public void display() {
+        super.display(); System.out.println(" Bonus:" + bonus);
+    }
+    public double totalSalary() { return getSalary() + bonus; }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        Manager[] m = new Manager[n];
+        for (int i = 0; i < n; i++) {
+            m[i] = new Manager(); m[i].accept(sc);
+        }
+        Manager max = m[0];
+        for (int i = 1; i < n; i++) if (m[i].totalSalary() > max.totalSalary()) max = m[i];
+        max.display();
+    }
+}
+
+SET C
+
+3)
+import java.util.*;
+
+abstract class Staff {
+    String name, address;
+    Staff(String n, String a) { name=n; address=a; }
+    abstract void display();
+}
+
+class FullTimeStaff extends Staff {
+    String dept; double salary;
+    FullTimeStaff(String n,String a,String d,double s){super(n,a);dept=d;salary=s;}
+    void display(){System.out.println("FullTime: "+name+" "+address+" "+dept+" "+salary);}
+}
+
+class PartTimeStaff extends Staff {
+    int hours; double rate;
+    PartTimeStaff(String n,String a,int h,double r){super(n,a);hours=h;rate=r;}
+    void display(){System.out.println("PartTime: "+name+" "+address+" "+hours+" "+rate);}
+}
+
+class StaffDemo {
+    public static void main(String[] args) {
+        Scanner sc=new Scanner(System.in);
+        System.out.print("Enter number of staff: ");
+        int n=sc.nextInt(); sc.nextLine();
+        Staff[] arr=new Staff[n];
+        for(int i=0;i<n;i++){
+            System.out.print("1.FullTime 2.PartTime: ");
+            int ch=sc.nextInt(); sc.nextLine();
+            System.out.print("Name: "); String name=sc.nextLine();
+            System.out.print("Address: "); String addr=sc.nextLine();
+            if(ch==1){
+                System.out.print("Dept: "); String d=sc.nextLine();
+                System.out.print("Salary: "); double s=sc.nextDouble(); sc.nextLine();
+                arr[i]=new FullTimeStaff(name,addr,d,s);
+            }else{
+                System.out.print("Hours: "); int h=sc.nextInt();
+                System.out.print("Rate: "); double r=sc.nextDouble(); sc.nextLine();
+                arr[i]=new PartTimeStaff(name,addr,h,r);
+            }
+        }
+        for(Staff st:arr) st.display();
+    }
+}
+
+4)
+import java.util.*;
+
+interface Shape { double area(); }
+
+class Rectangle implements Shape {
+    double l,w;
+    Rectangle(double l,double w){this.l=l;this.w=w;}
+    public double area(){return l*w;}
+}
+
+class Square extends Rectangle {
+    Square(double s){super(s,s);}
+}
+
+class Circle implements Shape {
+    double r;
+    Circle(double r){this.r=r;}
+    public double area(){return Math.PI*r*r;}
+}
+
+class ShapeDemo {
+    public static void main(String[] args) {
+        Scanner sc=new Scanner(System.in);
+        System.out.print("Enter length & width of Rectangle: ");
+        Rectangle rect=new Rectangle(sc.nextDouble(),sc.nextDouble());
+        System.out.print("Enter side of Square: ");
+        Square sq=new Square(sc.nextDouble());
+        System.out.print("Enter radius of Circle: ");
+        Circle c=new Circle(sc.nextDouble());
+        System.out.println("Rectangle Area: "+rect.area());
+        System.out.println("Square Area: "+sq.area());
+        System.out.println("Circle Area: "+c.area());
+    }
+}
+
+5)
+File 1: Series/Fibonacci.java
+
+package Series;
+public class Fibonacci {
+    public void print(int n){
+        int a=0,b=1;
+        for(int i=0;i<n;i++){
+            System.out.print(a+" ");
+            int c=a+b; a=b; b=c;
+        }
+        System.out.println();
+    }
+}
+
+
+File 2: Series/Cube.java
+
+package Series;
+public class Cube {
+    public void print(int n){
+        for(int i=1;i<=n;i++) System.out.print((i*i*i)+" ");
+        System.out.println();
+    }
+}
+
+
+File 3: Series/Square.java
+
+package Series;
+public class Square {
+    public void print(int n){
+        for(int i=1;i<=n;i++) System.out.print((i*i)+" ");
+        System.out.println();
+    }
+}
+
+
+File 4: Main.java
+
+import Series.*;
+import java.util.*;
+
+class Main {
+    public static void main(String[] args){
+        Scanner sc=new Scanner(System.in);
+        System.out.print("Enter n: ");
+        int n=sc.nextInt();
+        new Fibonacci().print(n);
+        new Cube().print(n);
+        new Square().print(n);
+    }
+}
