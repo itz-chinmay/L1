@@ -1,0 +1,234 @@
+ASSIGNMENT - 6
+
+SET A
+
+1)
+class Team: 
+  def __init__(self, name, members): 
+    self.name = name 
+    self.members = members 
+ 
+  def show_name(self): 
+    print('Team name:', self.name) 
+ 
+  def show_members(self): 
+    print('Team members:', ', '.join(self.members)) 
+ 
+class Dev(Team): 
+  def __init__(self, name, members, language): 
+    super().__init__(name, members) 
+    self.language = language 
+ 
+  def show_language(self): 
+    print('Programming language:', self.language) 
+ 
+dev_team = Dev('Dev Team', ['Alice', 'Bob', 'Carol'], 
+'Python') 
+ 
+dev_team.show_name()  # Team name: Dev Team 
+dev_team.show_members()  # Team members: Alice, 
+Bob, Carol 
+ 
+dev_team.show_language() 
+
+2)
+class TeamMember:
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
+
+    def show_member_details(self):
+        print(f"Name: {self.name}, Age: {self.age}")
+
+class Project:
+    def __init__(self, project_name):
+        self.project_name = project_name
+
+    def show_project(self):
+        print(f"Project: {self.project_name}")
+
+class TeamLeader(TeamMember, Project):
+    def __init__(self, name, age, project_name, team_size):
+        TeamMember.__init__(self, name, age)
+        Project.__init__(self, project_name)
+        self.team_size = team_size
+
+    def show_leader_details(self):
+        self.show_member_details()
+        self.show_project()
+        print(f"Team Size: {self.team_size}")
+
+
+name = input("Enter Team Leader's Name: ")
+age = int(input("Enter Age: "))
+project_name = input("Enter Project Name: ")
+team_size = int(input("Enter Team Size: "))
+
+leader = TeamLeader(name, age, project_name, team_size)
+print("\n--- Team Leader Details ---")
+leader.show_leader_details()
+
+3)
+class BaseClass: 
+pass 
+class SubClass(BaseClass): 
+pass 
+print(issubclass(SubClass, BaseClass))  # Output: True 
+base_class_instance = BaseClass() 
+ 
+BaseClass 
+print(isinstance(base_class_instance, BaseClass))  
+SubClass 
+print(isinstance(base_class_instance, SubClass)) 
+
+
+SET B
+
+1)
+class University:
+    def __init__(self, uni_name):
+        self.uni_name = uni_name
+
+    def show_university(self):
+        print(f"University: {self.uni_name}")
+
+
+class Faculty(University):
+    def __init__(self, uni_name, faculty_name):
+        University.__init__(self, uni_name)
+        self.faculty_name = faculty_name
+
+    def show_faculty(self):
+        print(f"Faculty: {self.faculty_name}")
+
+
+class Department(University):
+    def __init__(self, uni_name, dept_name):
+        University.__init__(self, uni_name)
+        self.dept_name = dept_name
+
+    def show_department(self):
+        print(f"Department: {self.dept_name}")
+
+
+class Course(Faculty, Department):
+    def __init__(self, uni_name, faculty_name, dept_name, course_name):
+        Faculty.__init__(self, uni_name, faculty_name)
+        Department.__init__(self, uni_name, dept_name)
+        self.course_name = course_name
+
+    def show_course(self):
+        self.show_university()
+        self.show_faculty()
+        self.show_department()
+        print(f"Course: {self.course_name}")
+
+
+uni = input("Enter University Name: ")
+faculty = input("Enter Faculty Name: ")
+dept = input("Enter Department Name: ")
+course = input("Enter Course Name: ")
+
+c = Course(uni, faculty, dept, course)
+
+print("\n--- Course Details ---")
+c.show_course()
+
+2)
+class Area: 
+def __init__(self, length, width): 
+self.length = length 
+self.width = width 
+def calculate_area(self): 
+return self.length * self.width 
+class Square(Area): 
+  def __init__(self, length): 
+    super().__init__(length, length) 
+     
+class Triangle(Area): 
+  def __init__(self, base, height): 
+    super().__init__(base, height) 
+     
+    def calculate_area(self): 
+      return 0.5 * self.length * self.width 
+ 
+square = Square(4) 
+print(square.calculate_area())  
+triangle = Triangle(5, 6) 
+print(triangle.calculate_area())
+
+3)
+class Shape: 
+    def __init__(self): 
+        self.area = 0 
+ 
+    def area(self): 
+        return self.area 
+ 
+class Square(Shape): 
+    def __init__(self, length): 
+        self.length = length 
+ 
+    def area(self): 
+        return self.length * self.length 
+ 
+square = Square(5) 
+print(square.area())
+
+4)
+class Country: 
+    def __init__(self, nationality): 
+        self.nationality = nationality 
+ 
+    def print_nationality(self): 
+        print(f"The nationality is: {self.nationality}") 
+ 
+class State(Country): 
+    def __init__(self, state, nationality): 
+        super().__init__(nationality) 
+        self.state = state 
+ 
+    def print_state(self): 
+        print(f"The state is: {self.state}") 
+ 
+    def print_all(self): 
+        self.print_state() 
+        super().print_nationality() 
+ 
+state = State("New York", "American") 
+state.print_all()
+
+
+SET C
+
+1)
+class A: 
+    def print_method(self): 
+        print("Method in class A") 
+ 
+class B: 
+    def print_method(self): 
+        print("Method in class B") 
+ 
+class C(A, B): 
+    def print_method(self): 
+        print("Method in class C") 
+ 
+c = C() 
+c.print_method() 
+
+2)
+class Car: 
+    def __init__(self, make, model): 
+        self.make = make 
+        self.model = model 
+ 
+class Garage: 
+    def __init__(self, car): 
+        self.car = car 
+ 
+car = Car("Ford", "Fiesta") 
+garage = Garage(car) 
+ 
+print(garage.car.make)   
+print(garage.car.model)  

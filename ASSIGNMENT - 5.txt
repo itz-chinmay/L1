@@ -1,0 +1,234 @@
+ASSIGNMENT - 5
+
+SET A
+
+1) 
+class Student:  
+    def __init__(self, roll, name, marks): 
+        self.roll = roll 
+        self.name = name 
+        self.marks = marks 
+ 
+    def get_percentage(self): 
+        total_marks = sum(self.marks) 
+        return total_marks / 3 
+ 
+    def delete_marks(self): 
+        self.marks = [] 
+ 
+    def display_details(self): 
+        print("Roll:", self.roll) 
+        print("Name:", self.name) 
+        print("Marks:", self.marks) 
+        print("Percentage:", self.get_percentage()) 
+ 
+student = Student(1, "John", [90, 80, 70]) 
+ 
+student.display_details() 
+ 
+student.delete_marks() 
+ 
+student.display_details()
+
+2)
+class Point:
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+
+    def __str__(self):
+        return f"({self.x}, {self.y})"
+
+
+class Circle:
+    def __init__(self, center, radius):
+        self.center = center
+        self.radius = radius
+
+    def __str__(self):
+        return f"Circle with center {self.center} and radius {self.radius}"
+
+
+x = float(input("Enter x-coordinate of center: "))
+y = float(input("Enter y-coordinate of center: "))
+radius = float(input("Enter radius of circle: "))
+
+center_point = Point(x, y)
+
+circle = Circle(center_point, radius)
+
+print(circle)
+
+3)
+class StringPrinter: 
+    def __init__(self): 
+        self.string = "" 
+ 
+    def get_string(self): 
+        self.string = input("Enter a string: ") 
+ 
+    def print_string(self): 
+        # Print the string in upper case 
+        print(self.string.upper()) 
+ 
+        words = self.string.split() 
+        words.reverse() 
+        print(" ".join(words).lower()) 
+ 
+string_printer = StringPrinter() 
+ 
+string_printer.get_string() 
+ 
+string_printer.print_string() 
+
+4)
+class ComplexNumber: 
+    def __init__(self, real, imag): 
+        self.real = real 
+        self.imag = imag 
+ 
+    def __add__(self, other): 
+        real = self.real + other.real 
+        imag = self.imag + other.imag 
+        return ComplexNumber(real, imag) 
+ 
+c1 = ComplexNumber(1, 2) 
+c2 = ComplexNumber(3, 4) 
+ 
+c3 = c1 + c2 
+ 
+print(c3.real, c3.imag) 
+
+
+SET B
+
+1)
+class Rectangle: 
+    def __init__(self, length, width): 
+        self.length = length 
+        self.width = width 
+ 
+    def area_and_volume(self): 
+        area = self.length * self.width 
+        volume = self.length * self.width * 0 
+        return area, volume 
+ 
+rectangle = Rectangle(10, 20) 
+ 
+area, volume = rectangle.area_and_volume() 
+ 
+print("Area:", area) 
+print("Volume:", volume) 
+
+2)
+import math
+
+class Point:
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+    def __str__(self):
+        return f"({self.x}, {self.y})"
+
+class Circle:
+    def __init__(self, center, radius):
+        self.center = center
+        self.radius = radius
+    def __str__(self):
+        return f"Circle with center {self.center} and radius {self.radius}"
+
+def pt_in_circle(circle, point):
+    dist = math.sqrt((circle.center.x - point.x) ** 2 + (circle.center.y - point.y) ** 2)
+    return dist == circle.radius
+
+x = float(input("Enter x-coordinate of center: "))
+y = float(input("Enter y-coordinate of center: "))
+radius = float(input("Enter radius of circle: "))
+center_point = Point(x, y)
+circle = Circle(center_point, radius)
+print(circle)
+
+px = float(input("Enter x-coordinate of point: "))
+py = float(input("Enter y-coordinate of point: "))
+point = Point(px, py)
+
+if pt_in_circle(circle, point):
+    print("Point lies on the boundary of the circle")
+else:
+    print("Point does not lie on the boundary of the circle")
+
+3)
+class Set: 
+  def __init__(self, elements): 
+    self.elements = set(elements) 
+ 
+  def get_subsets(self): 
+    subsets = [set()] 
+ 
+    for element in self.elements: 
+      for i in range(len(subsets)): 
+        new_subset = subsets[i].copy() 
+        new_subset.add(element) 
+ 
+        subsets.append(new_subset) 
+ 
+    return subsets 
+ 
+my_set = Set([1, 2, 3]) 
+ 
+subsets = my_set.get_subsets() 
+ 
+print(subsets) 
+
+5)
+class RepeatString:
+    def __init__(self, text):
+        self.text = text
+
+    def __mul__(self, n):
+        return self.text * n
+
+s = input("Enter a string: ")
+n = int(input("Enter a number: "))
+obj = RepeatString(s)
+print(obj * n)
+
+
+SET C
+
+1)
+class Calculator:
+    def __init__(self, a, b):
+        self.a = a
+        self.b = b
+
+    def add(self):
+        return self.a + self.b
+
+    def subtract(self):
+        return self.a - self.b
+
+    def multiply(self):
+        return self.a * self.b
+
+    def divide(self):
+        if self.b != 0:
+            return self.a / self.b
+        else:
+            return "Division by zero not allowed"
+
+x = float(input("Enter first number: "))
+y = float(input("Enter second number: "))
+
+calc = Calculator(x, y)
+
+print("Addition:", calc.add())
+print("Subtraction:", calc.subtract())
+print("Multiplication:", calc.multiply())
+print("Division:", calc.divide())
+
+2)
+import datetime 
+current_time = datetime.datetime.now() 
+day_of_week = current_time.strftime('%A') 
+print(day_of_week)

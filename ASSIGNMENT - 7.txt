@@ -1,0 +1,163 @@
+ASSIGNMENT - 7
+
+SET A
+
+1)
+class MyException(Exception):
+    def __init__(self, message):
+        self.message = message
+        super().__init__(self.message)
+
+try:
+    value = int(input("Enter a positive number: "))
+    if value <= 0:
+        raise MyException("Only positive numbers are allowed!")
+    print("You entered:", value)
+except MyException as e:
+    print("Custom Exception Caught:", e.message)
+
+2)
+def oops():
+    raise IndexError("This is an explicit IndexError raised by oops()")
+
+def handle_oops():
+    try:
+        oops()
+    except IndexError as e:
+        print("Caught an exception:", e)
+
+handle_oops()
+
+3)
+class MyError(Exception):
+    def __init__(self, message, data):
+        super().__init__(message)
+        self.data = data
+
+
+def oops():
+    raise MyError("This is a custom MyError exception", data=42)
+
+
+def handle_oops():
+    try:
+        oops()
+    except IndexError as e:
+        print("Caught an IndexError:", e)
+    except MyError as e:
+        print("Caught MyError:", e)
+        print("Extra data:", e.data)
+
+handle_oops()
+
+
+SET B
+
+1)
+class InvalidDateException(Exception):
+    def __init__(self, message):
+        super().__init__(message)
+
+
+class Date:
+    def __init__(self, day, month, year):
+        self.day = day
+        self.month = month
+        self.year = year
+        self.validate_date()
+
+    def validate_date(self):
+        if self.month < 1 or self.month > 12:
+            raise InvalidDateException("Invalid month! Must be between 1 and 12.")
+
+        if self.day < 1:
+            raise InvalidDateException("Invalid day! Must be positive.")
+
+        days_in_month = [31, 29 if self.is_leap_year() else 28, 31, 30, 31, 30,
+                         31, 31, 30, 31, 30, 31]
+
+        if self.day > days_in_month[self.month - 1]:
+            raise InvalidDateException("Invalid day for the given month.")
+
+    def is_leap_year(self):
+        return (self.year % 400 == 0) or (self.year % 100 != 0 and self.year % 4 == 0)
+
+    def display(self):
+        print(f"Date: {self.day:02d}/{self.month:02d}/{self.year}")
+
+try:
+    d = int(input("Enter day: "))
+    m = int(input("Enter month: "))
+    y = int(input("Enter year: "))
+
+    date = Date(d, m, y)
+    date.display()
+
+except InvalidDateException as e:
+    print("Error:", e)
+
+2)
+try: 
+    with open('test.txt') as f: 
+        for line in f: 
+            try: 
+                # Attempt to convert the line to an integer 
+                value = int(line.strip()) 
+                print(f'{value} is an integer') 
+            except ValueError: 
+                try: 
+                    # Attempt to convert the line to a float 
+                    value = float(line.strip()) 
+                    print(f'{value} is a float') 
+                except ValueError: 
+                    print(f'{line.strip()} is a character') 
+except FileNotFoundError: 
+    print('File not found')
+
+
+SET C
+
+1)
+tools.py
+
+import sys
+import traceback
+
+def safe(func, *args):
+    try:
+        func(*args)
+    except Exception:
+        exc_type, exc_value, exc_traceback = sys.exc_info()
+        print("Exception type:", exc_type)
+        print("Exception value:", exc_value)
+        print("Stack trace:")
+        traceback.print_exc()
+
+main.py
+
+def oops():
+    raise IndexError("This is an explicit IndexError raised by oops()")
+
+from tools import safe
+
+safe(oops)
+
+2)
+class MyError(Exception):
+    def __init__(self, message, data):
+        super().__init__(message)
+        self.data = data
+
+def oops():
+    raise MyError("This is a custom MyError exception", data=99)
+
+def handle_oops():
+    try:
+        oops()
+    except IndexError as e:
+        print("Caught IndexError:", e)
+    except MyError as e:
+        print("Caught MyError:", e)
+        print("Extra data:", e.data)
+
+handle_oops()
