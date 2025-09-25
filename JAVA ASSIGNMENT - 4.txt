@@ -1,0 +1,461 @@
+ASSIGNMENT - 4
+
+SET A
+
+1)
+public class Main { 
+  public static void main(String[] args) { 
+    int count = 0; 
+    for (String arg : args) { 
+      try { 
+        int num = Integer.parseInt(arg); 
+        count++; 
+      } catch (NumberFormatException e) { 
+      } 
+    } 
+    System.out.println("Number of integers: " + count); 
+  } 
+}
+
+2)
+import java.util.*; 
+class Voting 
+{ 
+   public static void main(String args[]) 
+   { 
+      Scanner sc = new Scanner(System.in); 
+      System.out.println("Enter your Name: "); 
+      String name=sc.nextLine(); 
+      System.out.println("Enter your age: "); 
+      int age=sc.nextInt(); 
+      if((age>=18)&&(age<=100)) 
+      { 
+          System.out.println("Congratulation "+name+", You are 
+eligible for Voting"); 
+      } 
+      else 
+      { 
+          System.out.println("Sorry "+name+", You are not eligible for 
+voting"); 
+      }       
+  } 
+} 
+
+3)
+import java.io.File; 
+public class Main { 
+public static void main(String[] args) { 
+String filePath = args[0]; 
+File file = new File(filePath); 
+long size = file.length(); 
+System.out.println("Size of file: " + size + " bytes"); 
+} 
+}
+
+4)
+import java.io.*; 
+ 
+class Numberiszero extends Exception{} 
+ 
+class Slip30A{ 
+ 
+    public static void main( String args[]){ 
+ 
+        int r,sum=0,temp;  
+ 
+        int n; 
+ 
+        DataInputStream dr = new DataInputStream(System.in); 
+ 
+        try { 
+ 
+            System.out.print("Enter Number : "); 
+ 
+            n = Integer.parseInt(dr.readLine()); 
+ 
+ 
+ 
+            if(n==0){ 
+ 
+                throw new Numberiszero(); 
+ 
+            }else{ 
+ 
+                temp=n;  
+ 
+                while(n>0){  
+ 
+                    r=n%10; 
+ 
+                    sum=(sum*10)+r;  
+ 
+                    n=n/10;  
+ 
+                }  
+ 
+                if(temp==sum){ 
+ 
+                    System.out.println("Palindrome Number ");  
+ 
+                }else{ 
+ 
+ 
+ 
+                    System.out.println("Not Palindrome"); 
+ 
+                } 
+ 
+            } 
+ 
+        } catch (Numberiszero nz) { 
+ 
+            System.out.println("Number is Zero"); 
+ 
+        } 
+ 
+        catch (NumberFormatException e){ 
+ 
+            System.out.println("Number is Invalid"); 
+ 
+        } 
+ 
+        catch (Exception e){} 
+ 
+    } 
+ 
+}
+
+5)
+import java.util.Scanner;
+class NumberOutOfRangeException extends Exception {
+    public NumberOutOfRangeException(String message) {
+        super(message);
+    }
+}
+
+public class DigitAddition {
+    public static int sumOfDigits(int num) {
+        int sum = 0;
+        while (num > 0) {
+            sum += num % 10;
+            num /= 10;
+        }
+        return sum;
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        try {
+            System.out.print("Enter a number: ");
+            int number = sc.nextInt();
+
+            if (number > 100) {
+                throw new NumberOutOfRangeException("Number is out of Range");
+            }
+
+            int result = sumOfDigits(number);
+            System.out.println("Sum of digits = " + result);
+
+        } catch (NumberOutOfRangeException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+}
+
+
+SET B
+
+1)
+import java.io.*; 
+class Slip2 
+{ 
+ public static void main(String args[])throws IOException 
+ { 
+  int c; 
+  try 
+  { 
+   FileReader fr=new FileReader("a.txt"); 
+   FileWriter fw=new FileWriter("b.txt"); 
+   while((c=fr.read())!=-1) 
+   { 
+    if(c>=65&&c<=90) 
+    { 
+     c=c+32; 
+     fw.write(c); 
+    } 
+    else if(c>=97&&c<=122) 
+    { 
+     c=c-32; 
+     fw.write(c); 
+    } 
+    else if(c>=48&&c<=57) 
+    { 
+ 
+ 
+     fw.write('*'); 
+    } 
+    else 
+    { 
+     fw.write(c); 
+    } 
+     
+   } 
+   System.out.println("Copy Successfully"); 
+   fr.close(); 
+   fw.close(); 
+  }catch(Exception e) 
+  { 
+   System.out.println(e); 
+  } 
+ } 
+}
+
+2)
+public class AsciiValue { 
+ 
+    public static void main(String[] args) { 
+ 
+        char ch = 'a'; 
+        int ascii = ch; 
+        // You can also cast char to int 
+        int castAscii = (int) ch; 
+ 
+        System.out.println("The ASCII value of " + ch + " is: " + ascii); 
+        System.out.println("The ASCII value of " + ch + " is: " + 
+castAscii); 
+    } 
+} 
+
+3)
+import java.util.Scanner;
+class NumberIsSmallException extends Exception {
+    public NumberIsSmallException(String message) {
+        super(message);
+    }
+}
+
+class NumberIsGreaterException extends Exception {
+    public NumberIsGreaterException(String message) {
+        super(message);
+    }
+}
+
+public class FactorialCalculator {
+        public static long factorial(int n) {
+        long fact = 1;
+        for (int i = 1; i <= n; i++) {
+            fact *= i;
+        }
+        return fact;
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        try {
+            System.out.print("Enter a number: ");
+            int number = sc.nextInt();
+
+            if (number < 5) {
+                throw new NumberIsSmallException("Number is small");
+            } else if (number > 10) {
+                throw new NumberIsGreaterException("Number is Greater");
+            } else {
+                long result = factorial(number);
+                System.out.println("Factorial of " + number + " = " + result);
+            }
+
+        } catch (NumberIsSmallException | NumberIsGreaterException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+}
+
+4)
+import java.io.*; 
+import java.util.*; 
+class FileReverse 
+{ 
+File f,f2; 
+String str; 
+FileReverse() 
+{  
+Scanner s=new Scanner(System.in); 
+System.out.println("Enter the source path: "); 
+String path=s.nextLine(); 
+System.out.println("Enter the source name: "); 
+String name=s.nextLine(); 
+f=new File(path,name); 
+ 
+ 
+ } 
+ void reverse() 
+ { 
+  try 
+  { 
+   RandomAccessFile file = new 
+RandomAccessFile(f,"r"); 
+   long n= f.length()-1; 
+   int i=0; 
+   while (n>=0) 
+   { 
+    if (n==-1) 
+     break; 
+    else 
+    { 
+     file.seek(n); 
+     i= file.read(); 
+     n=n-1; 
+     System.out.print((char)i); 
+    } 
+   } 
+   file.close(); 
+  }catch(Exception e) 
+  { 
+System.out.print(e); 
+} 
+} 
+}
+class TestFileReverse 
+{ 
+public static void main(String args[]) 
+{ 
+FileReverse obj=new FileReverse(); 
+obj.reverse();
+}
+}
+
+5)
+import java.io.BufferedReader; 
+import java.io.FileReader; 
+import java.io.IOException; 
+import java.util.Scanner; 
+public class ReverseWords { 
+public static void main(String[] args) throws IOException { 
+System.out.print("Enter a file name: "); 
+Scanner input = new Scanner(System.in); 
+ 
+ 
+    String fileName = input.nextLine(); 
+ 
+    FileReader fileReader = new FileReader(fileName); 
+    BufferedReader reader = new BufferedReader(fileReader); 
+ 
+    String line; 
+    while ((line = reader.readLine()) != null) { 
+      String[] words = line.split("\\s+"); 
+ 
+      for (int i = words.length - 1; i >= 0; i--) { 
+        System.out.print(words[i] + " "); 
+      } 
+      System.out.println(); 
+    } 
+ 
+    reader.close(); 
+  } 
+}
+
+
+SET C
+
+1)
+import java.io.File;
+
+public class FileFilter {
+    public static void main(String[] args) {
+        for (String name : args) {
+            File f = new File(name);
+            
+            if (f.exists()) {
+                if (name.endsWith(".txt")) {
+                    f.delete();
+                } else {
+                    System.out.println("Name: " + f.getName() +
+                                       ", Location: " + f.getAbsolutePath() +
+                                       ", Size: " + f.length() + " bytes");
+                }
+            }
+        }
+    }
+}
+
+2)
+import java.io.File;
+
+public class TxtFiles {
+    public static void main(String[] args) {
+        File dir = new File("C:\\YourDirectoryPath"); // replace with your path
+        for (File f : dir.listFiles())
+            if (f.isFile() && f.getName().endsWith(".txt"))
+                System.out.println(f.getName());
+    }
+}
+
+3)
+import java.io.*;
+
+public class FileStats {
+    public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new FileReader("input.txt")); // replace with your file
+        String line;
+        int lines=0, words=0, chars=0;
+        
+        while((line=br.readLine()) != null) {
+            lines++;
+            words += line.split("\\s+").length;
+            chars += line.length();
+        }
+        br.close();
+        
+        System.out.println("Lines: "+lines+"\nWords: "+words+"\nCharacters: "+chars);
+    }
+}
+
+4)
+import java.io.*;
+
+public class CharProcess {
+    public static void main(String[] args) throws Exception {
+        FileReader fr = new FileReader("input.txt"); // replace with your file
+        int ch;
+        while ((ch = fr.read()) != -1) {
+            if (Character.isLetter(ch)) {
+                System.out.print(Character.isUpperCase(ch) ? Character.toLowerCase(ch) : Character.toUpperCase(ch));
+            } else if (Character.isDigit(ch)) {
+                System.out.print("[Digit]");
+            } else if (Character.isWhitespace(ch)) {
+                System.out.print("[Space]");
+            } else {
+                System.out.print("[Other]");
+            }
+        }
+        fr.close();
+    }
+}
+
+5)
+import java.util.Scanner;
+
+class InvalidDataException extends Exception {
+    public InvalidDataException(String msg) { super(msg); }
+}
+
+public class ValidateData {
+    public static void main(String[] args) throws Exception {
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("Enter PAN: ");
+        String pan = sc.next();
+        System.out.print("Enter Mobile: ");
+        String mob = sc.next();
+
+        try {
+            if (!pan.matches("[A-Z]{5}[0-9]{4}[A-Z]") || !mob.matches("[6-9][0-9]{9}"))
+                throw new InvalidDataException("Invalid Data");
+            System.out.println("PAN: " + pan + "\nMobile: " + mob);
+        } catch (InvalidDataException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+}
