@@ -1,0 +1,810 @@
+ASSIGNMENT 2
+
+SET A
+
+1)
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+public class RandomNumberPrinter {
+
+    public static void main(String[] args) {
+        NumberDisplayThread displayThread = new NumberDisplayThread();
+        displayThread.start();
+    }
+}
+
+class NumberDisplayThread extends Thread {
+    @Override
+    public void run() {
+        List<Integer> numbers = new ArrayList<>();
+
+        for (int i = 1; i <= 100; i++) {
+            numbers.add(i);
+        }
+
+        Collections.shuffle(numbers);
+
+        for (int num : numbers) {
+            System.out.println(num);
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                System.out.println("Thread interrupted!");
+            }
+        }
+    }
+}
+
+2)
+public class ReverseAlphabetPrinter {
+
+    public static void main(String[] args) {
+        CharacterDisplayThread thread = new CharacterDisplayThread();
+
+        thread.start();
+    }
+}
+
+class CharacterDisplayThread extends Thread {
+    @Override
+    public void run() {
+        try {
+            System.out.println("Waiting 5 seconds before displaying characters...");
+            Thread.sleep(5000);
+
+            for (char c = 'Z'; c >= 'A'; c--) {
+                System.out.println(c);
+            }
+        } catch (InterruptedException e) {
+            System.out.println("Thread interrupted: " + e);
+        }
+    }
+}
+
+3)
+public class HelloJavaThread {
+    public static void main(String[] args) {
+        Thread helloThread = new Thread(() -> {
+            for (int i = 1; i <= 10; i++) {
+                System.out.println("Hello Java");
+            }
+        });
+
+        helloThread.start();
+    }
+}
+
+4)
+public class ReverseThreadDemo {
+    public static void main(String[] args) {
+        ReverseCountThread thread = new ReverseCountThread();
+        thread.start();
+    }
+}
+
+class ReverseCountThread extends Thread {
+    @Override
+    public void run() {
+        for (int i = 100; i >= 1; i--) {
+            try {
+                Thread.currentThread().setName("Thread-" + i);
+                
+                System.out.println("Current Thread Name: " + Thread.currentThread().getName());
+
+                Thread.sleep(6000);
+            } catch (InterruptedException e) {
+                System.out.println("Thread Interrupted!");
+            }
+        }
+        System.out.println("Thread has finished counting.");
+    }
+}
+
+5)
+public class VowelDisplay {
+    public static void main(String[] args) {
+        String input = "Hello Java Programming!";
+
+        VowelPrinterThread vowelThread = new VowelPrinterThread(input);
+        vowelThread.start();
+    }
+}
+
+class VowelPrinterThread extends Thread {
+    private String text;
+
+    public VowelPrinterThread(String text) {
+        this.text = text;
+    }
+
+    @Override
+    public void run() {
+        System.out.println("Displaying vowels from the string: \"" + text + "\"");
+
+        for (char ch : text.toCharArray()) {
+            if (isVowel(ch)) {
+                System.out.println("Vowel found: " + ch);
+                try {
+                    Thread.sleep(3000);
+                } catch (InterruptedException e) {
+                    System.out.println("Thread interrupted");
+                }
+            }
+        }
+
+        System.out.println("Finished displaying all vowels.");
+    }
+
+    private boolean isVowel(char c) {
+        return "AEIOUaeiou".indexOf(c) != -1;
+    }
+}
+
+
+SET B
+
+1)
+public class TextPrinterMain {
+    public static void main(String[] args) {
+        MessagePrinter thread1 = new MessagePrinter("Hello", 10);
+        MessagePrinter thread2 = new MessagePrinter("Good Morning", 20);
+        MessagePrinter thread3 = new MessagePrinter("Sir/Mam", 30);
+
+        thread1.start();
+        thread2.start();
+        thread3.start();
+    }
+}
+
+class MessagePrinter extends Thread {
+    private String message;
+    private int repeatCount;
+
+    public MessagePrinter(String message, int repeatCount) {
+        this.message = message;
+        this.repeatCount = repeatCount;
+    }
+
+    @Override
+    public void run() {
+        for (int i = 1; i <= repeatCount; i++) {
+            System.out.println(message + " (" + i + ")");
+            try {
+                Thread.sleep(300);  // 300 milliseconds delay
+            } catch (InterruptedException e) {
+                System.out.println("Thread interrupted: " + e.getMessage());
+            }
+        }
+    }
+}
+
+2)
+import javax.swing.*;
+import java.awt.*;
+import java.util.Random;
+
+public class BouncingBallsApp {
+    public static void main(String[] args) {
+        JFrame frame = new JFrame("Multithreading - Bouncing Balls");
+        BallPanel panel = new BallPanel();
+
+        frame.setSize(400, 500);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.add(panel);
+        frame.setVisible(true);
+
+        new BallThread(panel, 50, Color.RED).start();
+        new BallThread(panel, 150, Color.BLUE).start();
+        new BallThread(panel, 250, Color.GREEN).start();
+    }
+}
+
+class BallPanel extends JPanel {
+    private final java.util.List<Ball> balls = new java.util.ArrayList<>();
+
+    public void addBall(Ball ball) {
+        balls.add(ball);
+    }
+
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+
+        g.setColor(Color.WHITE);
+        g.fillRect(0, 0, getWidth(), getHeight());
+
+        for (Ball ball : balls) {
+            g.setColor(ball.getColor());
+            g.fillOval(ball.getX(), ball.getY(), ball.SIZE, ball.SIZE);
+        }
+    }
+
+    public java.util.List<Ball> getBalls() {
+        return balls;
+    }
+}
+
+class Ball {
+    public static final int SIZE = 30;
+
+    private int x;
+    private int y;
+    private int speed;
+    private int direction = 1;
+    private final Color color;
+
+    public Ball(int x, Color color) {
+        this.x = x;
+        this.y = 0;
+        this.color = color;
+        this.speed = 5 + new Random().nextInt(5);
+    }
+
+    public void move(JPanel panel) {
+        y += speed * direction;
+        if (y >= panel.getHeight() - SIZE || y <= 0) {
+            direction *= -1;
+        }
+    }
+
+    public int getX() { return x; }
+    public int getY() { return y; }
+    public Color getColor() { return color; }
+}
+
+class BallThread extends Thread {
+    private final BallPanel panel;
+    private final Ball ball;
+
+    public BallThread(BallPanel panel, int xPosition, Color color) {
+        this.panel = panel;
+        this.ball = new Ball(xPosition, color);
+        panel.addBall(ball);
+    }
+
+    @Override
+    public void run() {
+        while (true) {
+            ball.move(panel);
+            panel.repaint();
+            try {
+                Thread.sleep(30);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+}
+
+3)
+import javax.swing.*;
+import java.awt.*;
+
+public class VerticalLineDrawer {
+    public static void main(String[] args) {
+        JFrame frame = new JFrame("Multithreaded Line Drawing");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(400, 400);
+
+        LinePanel panel = new LinePanel();
+        frame.add(panel);
+        frame.setVisible(true);
+
+        new LineThread(panel, 50).start();
+        new LineThread(panel, 100).start();
+        new LineThread(panel, 150).start();
+        new LineThread(panel, 200).start();
+        new LineThread(panel, 250).start();
+    }
+}
+
+class LinePanel extends JPanel {
+    java.util.List<Integer> xPositions = new java.util.ArrayList<>();
+
+    public synchronized void addLine(int x) {
+        xPositions.add(x);
+        repaint();
+    }
+
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        g.setColor(Color.BLUE);
+        for (int x : xPositions) {
+            g.drawLine(x, 50, x, getHeight() - 50);
+        }
+    }
+}
+
+class LineThread extends Thread {
+    private final LinePanel panel;
+    private final int xPosition;
+
+    public LineThread(LinePanel panel, int xPosition) {
+        this.panel = panel;
+        this.xPosition = xPosition;
+    }
+
+    @Override
+    public void run() {
+        try {
+            Thread.sleep((int)(Math.random() * 2000));
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        panel.addLine(xPosition);
+        System.out.println("Line drawn at X = " + xPosition + " by " + Thread.currentThread().getName());
+    }
+}
+
+4)
+import javax.swing.*;
+import java.awt.*;
+import java.util.Random;
+
+public class MovingCars {
+    public static void main(String[] args) {
+        JFrame frame = new JFrame("Moving Cars - Multithreading Example");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(800, 400);
+
+        CarPanel panel = new CarPanel();
+        frame.add(panel);
+        frame.setVisible(true);
+
+        new CarThread(panel, 0, 50, Color.RED).start(); 
+        new CarThread(panel, 0, 150, Color.BLUE).start(); 
+    }
+}
+
+class CarPanel extends JPanel {
+    private final java.util.List<Car> cars = new java.util.ArrayList<>();
+
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        for (Car car : cars) {
+            g.setColor(car.color);
+            g.fillRect(car.x, car.y, car.WIDTH, car.HEIGHT);
+        }
+    }
+
+    public synchronized void updateCar(Car car) {
+        repaint();
+    }
+
+    public void addCar(Car car) {
+        cars.add(car);
+    }
+}
+
+class Car {
+    public final int WIDTH = 60;
+    public final int HEIGHT = 30;
+    public int x, y;
+    public Color color;
+
+    public Car(int x, int y, Color color) {
+        this.x = x;
+        this.y = y;
+        this.color = color;
+    }
+}
+
+class CarThread extends Thread {
+    private final Car car;
+    private final CarPanel panel;
+    private final Random random = new Random();
+
+    public CarThread(CarPanel panel, int startX, int startY, Color color) {
+        this.panel = panel;
+        this.car = new Car(startX, startY, color);
+        panel.addCar(car);
+    }
+
+    @Override
+    public void run() {
+        while (car.x < panel.getWidth()) {
+            car.x += random.nextInt(10) + 1; 
+
+            panel.updateCar(car);
+
+            try {
+                Thread.sleep(random.nextInt(100) + 50);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+        System.out.println("Car finished: " + car.color.toString());
+    }
+}
+
+5)
+import javax.swing.*;
+import java.awt.*;
+
+public class CharacterDisplayApp {
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> new CharacterDisplayFrame("Hello Java!"));
+    }
+}
+
+class CharacterDisplayFrame extends JFrame {
+    private JTextField textField;
+    private String inputString;
+
+    public CharacterDisplayFrame(String str) {
+        inputString = str;
+
+        setTitle("Character Display");
+        setSize(400, 100);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLayout(new FlowLayout());
+
+        textField = new JTextField(30);
+        textField.setFont(new Font("Arial", Font.PLAIN, 20));
+        add(textField);
+
+        setVisible(true);
+
+        new CharDisplayThread().start();
+    }
+
+    class CharDisplayThread extends Thread {
+        @Override
+        public void run() {
+            StringBuilder displayedText = new StringBuilder();
+            for (int i = 0; i < inputString.length(); i++) {
+                char nextChar = inputString.charAt(i);
+                displayedText.append(nextChar);
+
+                SwingUtilities.invokeLater(() -> textField.setText(displayedText.toString()));
+
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    System.out.println("Thread interrupted.");
+                }
+            }
+        }
+    }
+}
+
+SET C
+
+1)
+class DataBuffer {
+    private int data;
+    private boolean hasValue = false;
+
+    public synchronized void produce(int value) {
+        while (hasValue) {
+            try {
+                wait();
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+        }
+        data = value;
+        hasValue = true;
+        System.out.println("Produced: " + data);
+        notify(); // Notify consumer
+    }
+
+    public synchronized int consume() {
+        while (!hasValue) {
+            try {
+                wait();
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+        }
+        hasValue = false;
+        System.out.println("Consumed: " + data);
+        notify();
+        return data;
+    }
+
+    public static void main(String[] args) {
+        DataBuffer buffer = new DataBuffer();
+
+        Producer producer = new Producer(buffer);
+        Consumer consumer = new Consumer(buffer);
+
+        producer.start();
+        consumer.start();
+    }
+}
+
+class Producer extends Thread {
+    private final DataBuffer buffer;
+
+    public Producer(DataBuffer buffer) {
+        this.buffer = buffer;
+    }
+
+    public void run() {
+        int value = 1;
+        while (true) {
+            buffer.produce(value++);
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+        }
+    }
+}
+
+class Consumer extends Thread {
+    private final DataBuffer buffer;
+
+    public Consumer(DataBuffer buffer) {
+        this.buffer = buffer;
+    }
+
+    public void run() {
+        while (true) {
+            buffer.consume();
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+        }
+    }
+}
+
+2)
+import java.util.Random;
+
+public class MultiThreadedSum {
+
+    static class SumCalculator extends Thread {
+        private int[] numbers;
+        private int startIndex;
+        private int endIndex;
+        private long partialSum;
+
+        public SumCalculator(int[] numbers, int startIndex, int endIndex) {
+            this.numbers = numbers;
+            this.startIndex = startIndex;
+            this.endIndex = endIndex;
+            this.partialSum = 0;
+        }
+
+        public void run() {
+            for (int i = startIndex; i < endIndex; i++) {
+                partialSum += numbers[i];
+            }
+        }
+
+        public long getPartialSum() {
+            return partialSum;
+        }
+    }
+
+    public static void main(String[] args) {
+        final int ARRAY_SIZE = 1000;
+        final int THREAD_COUNT = 10;
+        final int PART_SIZE = ARRAY_SIZE / THREAD_COUNT;
+
+        int[] numbers = new int[ARRAY_SIZE];
+        Random random = new Random();
+
+        for (int i = 0; i < ARRAY_SIZE; i++) {
+            numbers[i] = random.nextInt(100) + 1;
+        }
+
+        SumCalculator[] threads = new SumCalculator[THREAD_COUNT];
+
+        for (int i = 0; i < THREAD_COUNT; i++) {
+            int start = i * PART_SIZE;
+            int end = start + PART_SIZE;
+            threads[i] = new SumCalculator(numbers, start, end);
+            threads[i].start();
+        }
+
+        long totalSum = 0;
+
+        for (int i = 0; i < THREAD_COUNT; i++) {
+            try {
+                threads[i].join();
+                totalSum += threads[i].getPartialSum();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+        double average = totalSum / (double) ARRAY_SIZE;
+
+        System.out.println("Total Sum: " + totalSum);
+        System.out.println("Average: " + average);
+    }
+}
+
+3)
+import java.util.Random;
+
+public class NumberProcessor {
+    private int currentNumber;
+    private boolean isEven;
+    private boolean numberGenerated = false;
+
+    public static void main(String[] args) {
+        NumberProcessor processor = new NumberProcessor();
+
+        Thread generatorThread = new Thread(processor.new NumberGenerator());
+        Thread evenThread = new Thread(processor.new EvenNumberProcessor());
+        Thread oddThread = new Thread(processor.new OddNumberProcessor());
+
+        generatorThread.start();
+        evenThread.start();
+        oddThread.start();
+    }
+
+    class NumberGenerator implements Runnable {
+        private Random random = new Random();
+
+        @Override
+        public void run() {
+            while (true) {
+                try {
+                    int num = random.nextInt(100) + 1;
+                    currentNumber = num;
+                    isEven = (num % 2 == 0);
+                    numberGenerated = true;
+
+                    System.out.println("Generated number: " + num);
+
+                    synchronized (NumberProcessor.this) {
+                        NumberProcessor.this.notifyAll();
+                    }
+
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    class EvenNumberProcessor implements Runnable {
+        @Override
+        public void run() {
+            while (true) {
+                try {
+                    synchronized (NumberProcessor.this) {
+                        while (!numberGenerated || !isEven) {
+                            NumberProcessor.this.wait();
+                        }
+
+                        int square = currentNumber * currentNumber;
+                        System.out.println("Square of " + currentNumber + " is: " + square);
+
+                        numberGenerated = false;
+                    }
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    class OddNumberProcessor implements Runnable {
+        @Override
+        public void run() {
+            while (true) {
+                try {
+                    synchronized (NumberProcessor.this) {
+                        while (!numberGenerated || isEven) {
+                            NumberProcessor.this.wait();
+                        }
+
+                        int cube = currentNumber * currentNumber * currentNumber;
+                        System.out.println("Cube of " + currentNumber + " is: " + cube);
+
+                        numberGenerated = false;
+                    }
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+}
+
+4)
+import javax.swing.*;
+import java.awt.*;
+
+public class SimpleHouse extends JPanel {
+
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+
+        setBackground(new Color(135, 206, 250));
+
+        Graphics2D g2d = (Graphics2D) g;
+
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+                             RenderingHints.VALUE_ANTIALIAS_ON);
+
+        g2d.setColor(new Color(210, 180, 140));
+        g2d.fillRect(100, 150, 200, 150);
+
+        g2d.setColor(Color.DARK_GRAY);
+        int[] xPoints = {90, 200, 310};
+        int[] yPoints = {150, 70, 150};
+        g2d.fillPolygon(xPoints, yPoints, 3);
+
+        g2d.setColor(new Color(139, 69, 19));
+        g2d.fillRect(180, 230, 40, 70);
+
+        g2d.setColor(Color.WHITE);
+        g2d.fillRect(120, 180, 40, 40);
+        g2d.setColor(Color.BLACK);
+        g2d.drawRect(120, 180, 40, 40);
+        g2d.drawLine(120, 200, 160, 200);
+        g2d.drawLine(140, 180, 140, 220);
+
+        g2d.setColor(Color.WHITE);
+        g2d.fillRect(240, 180, 40, 40);
+        g2d.setColor(Color.BLACK);
+        g2d.drawRect(240, 180, 40, 40);
+        g2d.drawLine(240, 200, 280, 200);
+        g2d.drawLine(260, 180, 260, 220);
+    }
+
+    public static void main(String[] args) {
+        JFrame frame = new JFrame("Simple House Drawing");
+        SimpleHouse housePanel = new SimpleHouse();
+
+        frame.setSize(400, 400);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.add(housePanel);
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
+    }
+}
+
+5)
+import java.applet.Applet;
+import java.awt.*;
+
+/*
+  <applet code="StarApplet" width="400" height="400">
+  </applet>
+*/
+
+public class StarApplet extends Applet {
+
+    public void paint(Graphics g) {
+        setBackground(Color.BLACK);
+        g.setColor(Color.YELLOW);
+
+        int[] xPoints = {
+            200, 220, 270, 230, 250,
+            200, 150, 170, 130, 180
+        };
+        int[] yPoints = {
+            100, 160, 160, 200, 260,
+            220, 260, 200, 160, 160
+        };
+
+        g.fillPolygon(xPoints, yPoints, xPoints.length);
+    }
+}
+
+#StarApplet.html
+
+<html>
+<body>
+    <applet code="StarApplet.class" width="400" height="400"></applet>
+</body>
+</html>
