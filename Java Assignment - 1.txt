@@ -1,0 +1,785 @@
+ASSIGNMENT 1
+
+SET A
+1)
+MySQL
+-- Step 1: Create the database
+CREATE DATABASE SampleDB;
+
+-- Step 2: Use the database
+USE SampleDB;
+
+-- Step 3: Create a table
+CREATE TABLE employees (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100),
+    position VARCHAR(50)
+);
+
+-- Step 4: Insert some sample records
+INSERT INTO employees (name, position) VALUES 
+('Alice', 'Manager'),
+('Bob', 'Developer'),
+('Carol', 'Designer');
+
+Java
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+public class RecordCounter {
+    
+    public static void main(String[] args) {
+        String jdbcURL = "jdbc:mysql://localhost:3306/SampleDB"; 
+        String username = "root"; 
+        String password = "your_password"; 
+
+        
+        String sql = "SELECT COUNT(*) FROM employees";
+
+        try {
+            
+            Class.forName("com.mysql.cj.jdbc.Driver");
+
+            
+            Connection conn = DriverManager.getConnection(jdbcURL, username, password);
+
+            
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            ResultSet result = stmt.executeQuery();
+
+            
+            if (result.next()) {
+                int count = result.getInt(1);
+                System.out.println("Total number of records in 'employees' table: " + count);
+            }
+
+            
+            result.close();
+            stmt.close();
+            conn.close();
+
+        } catch (ClassNotFoundException e) {
+            System.out.println("MySQL JDBC Driver not found.");
+            e.printStackTrace();
+        } catch (SQLException e) {
+            System.out.println("Database connection or query failed.");
+            e.printStackTrace();
+        }
+    }
+}
+
+javac -cp .:mysql-connector-java-8.0.xx.jar RecordCounter.java
+java -cp .:mysql-connector-java-8.0.xx.jar RecordCounter
+
+2)
+MySQL
+-- Create a database if not already created
+CREATE DATABASE CompanyDB;
+
+-- Select the database
+USE CompanyDB;
+
+-- Create the Emp table
+CREATE TABLE Emp (
+    ENo INT PRIMARY KEY,
+    EName VARCHAR(100),
+    Salary DECIMAL(10,2)
+);
+
+-- Insert sample data
+INSERT INTO Emp (ENo, EName, Salary) VALUES 
+(101, 'Alice', 55000.00),
+(102, 'Bob', 60000.00),
+(103, 'Charlie', 50000.00);
+
+Java
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.sql.SQLException;
+
+public class DisplayEmployeeNames {
+    public static void main(String[] args) {
+        String jdbcURL = "jdbc:mysql://localhost:3306/CompanyDB";
+        String dbUsername = "root";
+        String dbPassword = "your_password"; 
+
+        String query = "SELECT EName FROM Emp";
+
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+
+            Connection connection = DriverManager.getConnection(jdbcURL, dbUsername, dbPassword);
+
+            Statement statement = connection.createStatement();
+
+            ResultSet resultSet = statement.executeQuery(query);
+
+            System.out.println("Employee Names:");
+            while (resultSet.next()) {
+                String name = resultSet.getString("EName");
+                System.out.println(name);
+            }
+
+            resultSet.close();
+            statement.close();
+            connection.close();
+
+        } catch (ClassNotFoundException e) {
+            System.out.println("JDBC Driver not found.");
+            e.printStackTrace();
+        } catch (SQLException e) {
+            System.out.println("Database error.");
+            e.printStackTrace();
+        }
+    }
+}
+
+3)
+MySQL
+-- 1. Create Database (if not exists)
+CREATE DATABASE SchoolDB;
+
+-- 2. Use the database
+USE SchoolDB;
+
+-- 3. Create Student table
+CREATE TABLE Student (
+    Rno INT PRIMARY KEY,
+    Sname VARCHAR(100),
+    Per DECIMAL(5,2)   -- Per stands for percentage
+);
+
+Java
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.Statement;
+import java.sql.SQLException;
+
+public class CreateStudentTable {
+    public static void main(String[] args) {
+        String jdbcURL = "jdbc:mysql://localhost:3306/SchoolDB";
+        String username = "root";
+        String password = "your_password"; 
+
+        String createTableSQL = "CREATE TABLE IF NOT EXISTS Student (" +
+                                "Rno INT PRIMARY KEY," +
+                                "Sname VARCHAR(100)," +
+                                "Per DECIMAL(5,2)" +
+                                ")";
+
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+
+            Connection connection = DriverManager.getConnection(jdbcURL, username, password);
+
+            Statement statement = connection.createStatement();
+
+            statement.executeUpdate(createTableSQL);
+            System.out.println("Table 'Student' created successfully!");
+
+            statement.close();
+            connection.close();
+
+        } catch (ClassNotFoundException e) {
+            System.out.println("MySQL JDBC Driver not found.");
+            e.printStackTrace();
+        } catch (SQLException e) {
+            System.out.println("SQL error occurred.");
+            e.printStackTrace();
+        }
+    }
+}
+
+4)
+MySQL
+-- Use the appropriate database
+USE CompanyDB;  -- Replace with your actual DB name
+
+-- Drop the 'Salary' column from Emp table
+ALTER TABLE Emp DROP COLUMN Salary;
+
+Java
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.Statement;
+import java.sql.SQLException;
+
+public class DropSalaryColumn {
+    public static void main(String[] args) {
+        String jdbcURL = "jdbc:mysql://localhost:3306/CompanyDB"; 
+        String username = "root"; 
+        String password = "your_password"; 
+
+        String sql = "ALTER TABLE Emp DROP COLUMN Salary";
+
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+
+            Connection connection = DriverManager.getConnection(jdbcURL, username, password);
+
+            Statement statement = connection.createStatement();
+
+            statement.executeUpdate(sql);
+            System.out.println("Column 'Salary' has been deleted from 'Emp' table.");
+
+            statement.close();
+            connection.close();
+
+        } catch (ClassNotFoundException e) {
+            System.out.println("MySQL JDBC Driver not found.");
+            e.printStackTrace();
+        } catch (SQLException e) {
+            System.out.println("SQL Error occurred.");
+            e.printStackTrace();
+        }
+    }
+}
+
+5)
+MySQL
+-- Step 1: Create a sample database (if not exists)
+CREATE DATABASE SchoolDB;
+
+-- Step 2: Use the database
+USE SchoolDB;
+
+-- Step 3: Create the Teacher table
+CREATE TABLE Teacher (
+    tno INT PRIMARY KEY,
+    tname VARCHAR(100),
+    subject VARCHAR(100)
+);
+
+-- Step 4: Insert sample data
+INSERT INTO Teacher (tno, tname, subject) VALUES 
+(1, 'Alice', 'Math'),
+(2, 'Bob', 'Physics'),
+(3, 'Charlie', 'Chemistry');
+
+Java
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.Scanner;
+
+public class DeleteTeacher {
+    public static void main(String[] args) {
+        String jdbcURL = "jdbc:mysql://localhost:3306/SchoolDB";
+        String username = "root"; 
+        String password = "your_password"; 
+
+        String sql = "DELETE FROM Teacher WHERE tno = ?";
+
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter Teacher Number (tno) to delete: ");
+        int tnoToDelete = scanner.nextInt();
+        scanner.close();
+
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+
+            Connection conn = DriverManager.getConnection(jdbcURL, username, password);
+
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, tnoToDelete);
+
+            int rowsAffected = pstmt.executeUpdate();
+
+            if (rowsAffected > 0) {
+                System.out.println("Teacher with tno " + tnoToDelete + " deleted successfully.");
+            } else {
+                System.out.println("No teacher found with tno: " + tnoToDelete);
+            }
+
+            pstmt.close();
+            conn.close();
+
+        } catch (ClassNotFoundException e) {
+            System.out.println("MySQL JDBC Driver not found.");
+            e.printStackTrace();
+        } catch (SQLException e) {
+            System.out.println("SQL error occurred.");
+            e.printStackTrace();
+        }
+    }
+}
+
+
+SET B
+
+1)
+MySQL
+-- Step 1: Create database
+CREATE DATABASE HealthDB;
+
+-- Step 2: Use the database
+USE HealthDB;
+
+-- Step 3: Create Hospital table
+CREATE TABLE Hospital (
+    HId INT PRIMARY KEY,
+    HName VARCHAR(100),
+    Address VARCHAR(255),
+    PH_No VARCHAR(15)
+);
+
+Java
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+import java.sql.*;
+
+public class HospitalForm extends JFrame {
+    private JTextField txtHId, txtHName, txtAddress, txtPHNo;
+    private JButton btnSave;
+
+    public HospitalForm() {
+        setTitle("Hospital Entry Form");
+        setSize(400, 300);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null); 
+
+        setLayout(new GridLayout(5, 2, 10, 10));
+
+        add(new JLabel("Hospital ID (HId):"));
+        txtHId = new JTextField();
+        add(txtHId);
+
+        add(new JLabel("Hospital Name (HName):"));
+        txtHName = new JTextField();
+        add(txtHName);
+
+        add(new JLabel("Address:"));
+        txtAddress = new JTextField();
+        add(txtAddress);
+
+        add(new JLabel("Phone Number (PH_No):"));
+        txtPHNo = new JTextField();
+        add(txtPHNo);
+
+        btnSave = new JButton("Save");
+        add(btnSave);
+
+        add(new JLabel());
+
+        btnSave.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                saveHospitalToDatabase();
+            }
+        });
+
+        setVisible(true);
+    }
+
+    private void saveHospitalToDatabase() {
+        String jdbcURL = "jdbc:mysql://localhost:3306/HealthDB";
+        String dbUser = "root"; 
+        String dbPass = "your_password"; 
+
+        try {
+            int HId = Integer.parseInt(txtHId.getText());
+            String HName = txtHName.getText();
+            String Address = txtAddress.getText();
+            String PH_No = txtPHNo.getText();
+
+            String sql = "INSERT INTO Hospital (HId, HName, Address, PH_No) VALUES (?, ?, ?, ?)";
+
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection conn = DriverManager.getConnection(jdbcURL, dbUser, dbPass);
+
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, HId);
+            pstmt.setString(2, HName);
+            pstmt.setString(3, Address);
+            pstmt.setString(4, PH_No);
+
+            int rowsInserted = pstmt.executeUpdate();
+
+            if (rowsInserted > 0) {
+                JOptionPane.showMessageDialog(this, "Hospital details saved successfully!");
+                clearFields();
+            } else {
+                JOptionPane.showMessageDialog(this, "Failed to save hospital details.");
+            }
+
+            pstmt.close();
+            conn.close();
+
+        } catch (NumberFormatException nfe) {
+            JOptionPane.showMessageDialog(this, "Hospital ID must be a number.");
+        } catch (SQLIntegrityConstraintViolationException dup) {
+            JOptionPane.showMessageDialog(this, "Hospital ID already exists.");
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage());
+        }
+    }
+
+    private void clearFields() {
+        txtHId.setText("");
+        txtHName.setText("");
+        txtAddress.setText("");
+        txtPHNo.setText("");
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> new HospitalForm());
+    }
+}
+
+2)
+MySQL
+-- 1. Create a database (if not already)
+CREATE DATABASE HospitalDB;
+
+-- 2. Use the created database
+USE HospitalDB;
+
+-- 3. Create Doctor table
+CREATE TABLE Doctor (
+    DNO INT PRIMARY KEY,
+    DName VARCHAR(100),
+    Specialization VARCHAR(100)
+);
+
+-- 4. Insert some sample data
+INSERT INTO Doctor (DNO, DName, Specialization) VALUES
+(1, 'Dr. Smith', 'Cardiology'),
+(2, 'Dr. Alice', 'Neurology'),
+(3, 'Dr. John', 'Orthopedics');
+
+Java
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import java.awt.*;
+import java.sql.*;
+
+public class DoctorTableDisplay extends JFrame {
+
+    JTable doctorTable;
+
+    public DoctorTableDisplay() {
+        setTitle("Doctor Records");
+        setSize(500, 300);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
+
+        String[] columns = {"DNO", "DName", "Specialization"};
+        DefaultTableModel tableModel = new DefaultTableModel(columns, 0);
+        doctorTable = new JTable(tableModel);
+
+        String jdbcURL = "jdbc:mysql://localhost:3306/HospitalDB"; 
+        String dbUser = "root";
+        String dbPass = "your_password"; 
+
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection conn = DriverManager.getConnection(jdbcURL, dbUser, dbPass);
+
+            String sql = "SELECT DNO, DName, Specialization FROM Doctor";
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+
+            while (rs.next()) {
+                int dno = rs.getInt("DNO");
+                String dname = rs.getString("DName");
+                String specialization = rs.getString("Specialization");
+
+                Object[] row = {dno, dname, specialization};
+                tableModel.addRow(row);
+            }
+
+            rs.close();
+            stmt.close();
+            conn.close();
+
+        } catch (ClassNotFoundException e) {
+            JOptionPane.showMessageDialog(this, "JDBC Driver not found.");
+            e.printStackTrace();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, "Database error: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        JScrollPane scrollPane = new JScrollPane(doctorTable);
+        add(scrollPane, BorderLayout.CENTER);
+        
+        setVisible(true);
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> new DoctorTableDisplay());
+    }
+}
+
+3)
+MySQL
+-- Create database
+CREATE DATABASE ClinicDB;
+
+-- Use the database
+USE ClinicDB;
+
+-- Create table
+CREATE TABLE Patient (
+    PId INT PRIMARY KEY,
+    PName VARCHAR(100),
+    Disease VARCHAR(100)
+);
+
+-- Insert data
+INSERT INTO Patient (PId, PName, Disease) VALUES
+(1, 'Alice', 'Flu'),
+(2, 'Bob', 'Cold'),
+(3, 'Charlie', 'Cough');
+
+Java
+import java.sql.*;
+import java.util.Scanner;
+
+public class LiveResultSetRefresh {
+    static final String JDBC_URL = "jdbc:mysql://localhost:3306/ClinicDB";
+    static final String DB_USER = "root";
+    static final String DB_PASS = "your_password"; 
+
+    public static void displayPatients(ResultSet rs) throws SQLException {
+        System.out.printf("%-5s %-15s %-15s%n", "PId", "PName", "Disease");
+        System.out.println("-----------------------------------------");
+
+        while (rs.next()) {
+            int id = rs.getInt("PId");
+            String name = rs.getString("PName");
+            String disease = rs.getString("Disease");
+            System.out.printf("%-5d %-15s %-15s%n", id, name, disease);
+        }
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+
+            Connection conn = DriverManager.getConnection(JDBC_URL, DB_USER, DB_PASS);
+
+            while (true) {
+                Statement stmt = conn.createStatement(
+                    ResultSet.TYPE_SCROLL_INSENSITIVE,
+                    ResultSet.CONCUR_READ_ONLY
+                );
+
+                ResultSet rs = stmt.executeQuery("SELECT * FROM Patient");
+
+                System.out.println("\n📋 Current Patient Records:");
+                displayPatients(rs);
+
+                System.out.println("\n⏸️ You can now update data in the database (using MySQL CLI/Workbench).");
+                System.out.print("🔁 Press Enter to refresh and read updated data...");
+                scanner.nextLine();
+
+                rs.close();
+                stmt.close();
+
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        scanner.close();
+    }
+}
+
+4)
+MySQL
+-- Step 1: Create database if not exists
+CREATE DATABASE DemoDB;
+
+-- Step 2: Use the database
+USE DemoDB;
+
+-- Step 3: Create Table
+CREATE TABLE Student (
+    id INT PRIMARY KEY,
+    name VARCHAR(100)
+);
+
+-- Step 4: Alter Table (e.g., add column 'email')
+ALTER TABLE Student ADD email VARCHAR(100);
+
+-- Step 5: Drop Table
+DROP TABLE Student;
+
+Java
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.Statement;
+
+public class TableOperations {
+
+    static final String JDBC_URL = "jdbc:mysql://localhost:3306/DemoDB";
+    static final String DB_USER = "root";
+    static final String DB_PASS = "your_password"; // 🔁 Replace with your MySQL password
+
+    public static void main(String[] args) {
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+
+            Connection conn = DriverManager.getConnection(JDBC_URL, DB_USER, DB_PASS);
+            Statement stmt = conn.createStatement();
+
+            String createTableSQL = "CREATE TABLE IF NOT EXISTS Student (" +
+                                    "id INT PRIMARY KEY," +
+                                    "name VARCHAR(100)" +
+                                    ")";
+            stmt.executeUpdate(createTableSQL);
+            System.out.println("✅ Table 'Student' created successfully.");
+
+            String alterTableSQL = "ALTER TABLE Student ADD email VARCHAR(100)";
+            stmt.executeUpdate(alterTableSQL);
+            System.out.println("✅ Table 'Student' altered, column 'email' added.");
+
+            String dropTableSQL = "DROP TABLE Student";
+            stmt.executeUpdate(dropTableSQL);
+            System.out.println("✅ Table 'Student' dropped successfully.");
+
+            stmt.close();
+            conn.close();
+
+        } catch (Exception e) {
+            System.out.println("⚠️ Error: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+}
+
+5)
+MySQL
+-- Step 1: Create a database if not exists
+CREATE DATABASE EducationDB;
+
+-- Step 2: Use the database
+USE EducationDB;
+
+-- Step 3: Create the 'College' table
+CREATE TABLE College (
+    CID INT PRIMARY KEY,
+    CName VARCHAR(100),
+    Address VARCHAR(255)
+);
+
+Java
+#CollegeForm.java
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+import java.sql.*;
+
+public class CollegeForm extends JFrame {
+    private JTextField txtCID, txtCName, txtAddress;
+    private JButton btnSubmit;
+
+    static final String DB_URL = "jdbc:mysql://localhost:3306/EducationDB";
+    static final String DB_USER = "root";
+    static final String DB_PASS = "your_password"; 
+
+    public CollegeForm() {
+        setTitle("College Registration Form");
+        setSize(400, 250);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
+        setLayout(new GridLayout(4, 2, 10, 10));
+
+        add(new JLabel("College ID (CID):"));
+        txtCID = new JTextField();
+        add(txtCID);
+
+        add(new JLabel("College Name (CName):"));
+        txtCName = new JTextField();
+        add(txtCName);
+
+        add(new JLabel("Address:"));
+        txtAddress = new JTextField();
+        add(txtAddress);
+
+        btnSubmit = new JButton("Submit");
+        add(btnSubmit);
+
+        add(new JLabel());
+
+        btnSubmit.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                insertCollegeDetails();
+            }
+        });
+
+        setVisible(true);
+    }
+
+    private void insertCollegeDetails() {
+        try {
+            int cid = Integer.parseInt(txtCID.getText());
+            String cname = txtCName.getText();
+            String address = txtAddress.getText();
+
+            Class.forName("com.mysql.cj.jdbc.Driver");
+
+            Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
+
+            String sql = "INSERT INTO College (CID, CName, Address) VALUES (?, ?, ?)";
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, cid);
+            pstmt.setString(2, cname);
+            pstmt.setString(3, address);
+
+            int rows = pstmt.executeUpdate();
+
+            if (rows > 0) {
+                JOptionPane.showMessageDialog(this, "College details saved successfully.");
+                new CollegeDetailsFrame(cid, cname, address);
+                this.dispose(); 
+            }
+
+            pstmt.close();
+            conn.close();
+
+        } catch (NumberFormatException nfe) {
+            JOptionPane.showMessageDialog(this, "CID must be a number.");
+        } catch (SQLIntegrityConstraintViolationException dup) {
+            JOptionPane.showMessageDialog(this, "College ID already exists.");
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage());
+        }
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> new CollegeForm());
+    }
+}
+
+#CollegeDetailsFrame.java
+import javax.swing.*;
+import java.awt.*;
+
+public class CollegeDetailsFrame extends JFrame {
+    public CollegeDetailsFrame(int cid, String cname, String address) {
+        setTitle("College Details");
+        setSize(400, 200);
+        setLocationRelativeTo(null);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        setLayout(new GridLayout(3, 1));
+
+        add(new JLabel("College ID: " + cid));
+        add(new JLabel("College Name: " + cname));
+        add(new JLabel("Address: " + address));
+
+        setVisible(true);
+    }
+}
