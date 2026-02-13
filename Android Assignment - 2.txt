@@ -1,3 +1,111 @@
+📥 STEP 1: Download Android Studio
+Open your browser and go to:
+👉 https://developer.android.com/studio
+
+Click on the “Download Android Studio” button.
+
+Read and accept the terms and conditions.
+
+Click the Download button for your OS (EXE file for Windows).
+
+🧭 STEP 2: Install Android Studio on Windows
+Once the installer (.exe) is downloaded:
+
+Double-click the .exe file to launch the setup wizard.
+
+Click Next on the Welcome screen.
+
+On the “Choose Components” screen:
+
+Leave default options checked ✅
+Android Studio
+Android Virtual Device (AVD)
+Click Next
+Choose Install Location:
+
+Leave default path or select a custom location.
+Click Next
+Click Install
+
+The setup will begin extracting and installing files.
+When finished, click Next, then Finish to launch Android Studio.
+
+🔧 STEP 3: Initial Setup (First Launch)
+Android Studio will launch and show a Welcome Screen.
+
+On first run, it will prompt:
+
+"Do you want to import settings?"
+Choose "Do not import settings" (recommended for fresh install)
+Android Studio will now download SDK Components:
+
+Click Next to proceed through the default setup.
+It will install:
+Android SDK
+Android SDK Tools
+Android Emulator
+Build Tools
+Accept the license agreements and click Finish.
+
+📝 This download might take a few minutes depending on your internet speed.
+
+📱 STEP 4: Create a Virtual Device (Emulator)
+You can use an emulator if you don’t have a physical Android device.
+
+Open Android Studio and go to Tools > Device Manager.
+
+Click Create device.
+
+Select a phone (e.g., Pixel 5) and click Next.
+
+Choose a System Image (e.g., Android 12 API 31) and click Download.
+
+After download, click Next, then Finish.
+
+Start the emulator by clicking the green 💡 Run icon.
+
+✅ You can now test apps on your virtual device.
+
+✨ STEP 5: Create Your First Project
+On the Android Studio welcome screen, click "New Project"
+
+Select Empty Activity → Click Next
+
+Name your application (e.g., MyFirstApp)
+
+Choose:
+
+Language: Java or Kotlin
+Minimum SDK: API 21 or higher recommended
+Click Finish. Android Studio will create your project.
+-----------------------------------------------------------------------------------------------
+
+
+🔧 Part 1: Set Up the Project in Android Studio
+Step 1: Open Android Studio
+Launch Android Studio.
+Click on "New Project".
+Step 2: Choose Project Template
+Choose "Empty Activity".
+Click Next.
+Step 3: Configure Your Project
+Name: ActivityLifecycleDemo
+Package name: (your choice, e.g., com.example.activitylifecycle)
+Language: Java or Kotlin (Choose Java for this example)
+Minimum SDK: Choose API 21: Android 5.0 (Lollipop) or higher
+Click Finish
+
+-------------------------------------------------------------------------------------------------
+
+📝 Part 2: Modify MainActivity.java
+Step 4: Open MainActivity.java
+Location: app > java > your.package.name > MainActivity
+
+Step 6: Design Simple Layout
+Open activity_main.xml: res > layout > activity_main.xml
+
+-------------------------------------------------------------------------------------------------
+
 ASSIGNMENT 2
 
 SET A
@@ -1370,4 +1478,5 @@ public class MainActivity extends AppCompatActivity {
             tvBinary.setText("0");
         }
     }
+
 }
