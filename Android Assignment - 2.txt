@@ -1,0 +1,1373 @@
+ASSIGNMENT 2
+
+SET A
+
+1)
+📁 Step 1: Create a New Android Project
+Open Android Studio
+File > New > New Project > Empty Activity
+App Name: CollegeNameColorChanger
+Language: Java
+Finish ✅
+
+#activity_main.xml
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:background="#ffffff"
+    android:padding="24dp">
+
+    <!-- Styled College Name TextView -->
+    <TextView
+        android:id="@+id/tvCollegeName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ABC College of Engineering"
+        android:textSize="26sp"
+        android:textStyle="italic|bold"
+        android:textColor="#000000"
+        android:fontFamily="sans-serif-condensed"
+        android:layout_marginBottom="32dp"/>
+
+    <!-- Push Button -->
+    <Button
+        android:id="@+id/btnChangeColor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Change Text Color"
+        android:textAllCaps="false"
+        android:backgroundTint="#1976D2"
+        android:textColor="#ffffff"
+        android:padding="12dp"/>
+</LinearLayout>
+
+🎨 Optional: Define Custom Colors (res/values/colors.xml)
+
+<resources>
+    <color name="black">#000000</color>
+    <color name="red">#D32F2F</color>
+    <color name="blue">#1976D2</color>
+    <color name="green">#388E3C</color>
+    <color name="purple">#6A1B9A</color>
+</resources>
+
+#MainActivity.java
+
+package com.example.collegenamecolorchanger;
+
+import androidx.appcompat.app.AppCompatActivity;
+import android.os.Bundle;
+import android.widget.Button;
+import android.graphics.Color;
+import android.widget.TextView;
+
+public class MainActivity extends AppCompatActivity {
+
+    TextView tvCollegeName;
+    Button btnChangeColor;
+
+    int colorIndex = 0;
+    int[] colors = {
+        Color.RED,
+        Color.BLUE,
+        Color.GREEN,
+        Color.MAGENTA,
+        Color.BLACK
+    };
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        tvCollegeName = findViewById(R.id.tvCollegeName);
+        btnChangeColor = findViewById(R.id.btnChangeColor);
+
+        btnChangeColor.setOnClickListener(view -> {
+            // Change color on each button click
+            colorIndex = (colorIndex + 1) % colors.length;
+            tvCollegeName.setTextColor(colors[colorIndex]);
+        });
+    }
+}
+
+2)
+📁 Step 1: Create a New Project
+Open Android Studio
+File → New → New Project → Empty Activity
+Name: PowerAverageApp
+Language: Java
+Click Finish
+✅ Step 2: Create a Second Activity
+Right-click on java/com.example.poweraverageapp
+Select: New → Activity → Empty Activity
+Name it: ResultActivity
+
+#activity_main.xml
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="20dp"
+    android:orientation="vertical"
+    android:gravity="center_horizontal">
+
+    <EditText
+        android:id="@+id/etNumber1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter First Number"
+        android:inputType="numberDecimal"
+        android:layout_marginBottom="16dp"/>
+
+    <EditText
+        android:id="@+id/etNumber2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter Second Number"
+        android:inputType="numberDecimal"
+        android:layout_marginBottom="24dp" />
+
+    <Button
+        android:id="@+id/btnPower"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Power (num1 ^ num2)" />
+
+    <Button
+        android:id="@+id/btnAverage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Average ((num1 + num2) / 2)"
+        android:layout_marginTop="16dp"/>
+</LinearLayout>
+
+#MainActivity.java
+
+package com.example.poweraverageapp;
+
+import androidx.appcompat.app.AppCompatActivity;
+import android.content.Intent;
+import android.os.Bundle;
+import android.widget.*;
+
+public class MainActivity extends AppCompatActivity {
+
+    EditText etNumber1, etNumber2;
+    Button btnPower, btnAverage;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        etNumber1 = findViewById(R.id.etNumber1);
+        etNumber2 = findViewById(R.id.etNumber2);
+        btnPower = findViewById(R.id.btnPower);
+        btnAverage = findViewById(R.id.btnAverage);
+
+        btnPower.setOnClickListener(v -> handleCalculation("power"));
+
+        btnAverage.setOnClickListener(v -> handleCalculation("average"));
+    }
+
+    private void handleCalculation(String operation) {
+        String n1 = etNumber1.getText().toString().trim();
+        String n2 = etNumber2.getText().toString().trim();
+
+        if (n1.isEmpty() || n2.isEmpty()) {
+            Toast.makeText(this, "Please enter both numbers", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        double num1 = Double.parseDouble(n1);
+        double num2 = Double.parseDouble(n2);
+
+        double result;
+
+        if (operation.equals("power")) {
+            result = Math.pow(num1, num2);
+        } else { // average
+            result = (num1 + num2) / 2;
+        }
+
+        // Send result to ResultActivity
+        Intent intent = new Intent(MainActivity.this, ResultActivity.class);
+        intent.putExtra("result", result);
+        intent.putExtra("operation", operation);
+        startActivity(intent);
+    }
+}
+
+#activity_result.xml
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="24dp">
+
+    <TextView
+        android:id="@+id/tvResult"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Result Will Appear Here"
+        android:textSize="24sp"
+        android:textColor="#000000"
+        android:textStyle="bold"/>
+</LinearLayout>
+
+#ResultActivity.java
+
+package com.example.poweraverageapp;
+
+import androidx.appcompat.app.AppCompatActivity;
+import android.os.Bundle;
+import android.widget.TextView;
+
+public class ResultActivity extends AppCompatActivity {
+
+    TextView tvResult;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_result);
+
+        tvResult = findViewById(R.id.tvResult);
+
+        double result = getIntent().getDoubleExtra("result", 0);
+        String operation = getIntent().getStringExtra("operation");
+
+        // Display message accordingly
+        String displayMessage = "Result of " + operation.toUpperCase() + ": " + result;
+        tvResult.setText(displayMessage);
+    }
+}
+
+#AndroidManifest.xml
+
+<application
+    ...>
+    <activity android:name=".ResultActivity"/>
+    <activity android:name=".MainActivity">
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN"/>
+            <category android:name="android.intent.category.LAUNCHER"/>
+        </intent-filter>
+    </activity>
+</application>
+
+3)
+📁 Step 1: Create New Android Project
+Open Android Studio
+Select "Empty Activity"
+Project Name: RadioButtonDemo
+Language: Java
+Finish ✅
+
+#activity_main.xml
+
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp"
+        android:gravity="center_horizontal">
+
+        <!-- Title -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Radio button and check box demo"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:layout_marginBottom="16dp"/>
+
+        <!-- Radio Group -->
+        <RadioGroup
+            android:id="@+id/radioGroupClass"
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <RadioButton
+                android:id="@+id/rbFY"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="FYBBA CA" />
+
+            <RadioButton
+                android:id="@+id/rbSY"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="SYBBA CA" />
+
+            <RadioButton
+                android:id="@+id/rbTY"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="TYBBA CA" />
+        </RadioGroup>
+
+        <!-- CheckBoxes -->
+        <CheckBox
+            android:id="@+id/cbCpp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="C++" />
+
+        <CheckBox
+            android:id="@+id/cbDS"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="DS USING C" />
+
+        <CheckBox
+            android:id="@+id/cbDotNet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="C#.NET" />
+
+        <CheckBox
+            android:id="@+id/cbJava"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="JAVA" />
+
+        <!-- Buttons -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginTop="16dp">
+
+            <Button
+                android:id="@+id/btnDisplay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="DISPLAY"
+                android:backgroundTint="#8000FF"
+                android:textColor="#ffffff"
+                android:layout_marginEnd="16dp"/>
+
+            <Button
+                android:id="@+id/btnClear"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="CLEAR"
+                android:backgroundTint="#8000FF"
+                android:textColor="#ffffff"/>
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>
+
+#MainActivity.java
+
+package com.example.radiobuttondemo;
+
+import android.os.Bundle;
+import android.widget.*;
+import androidx.appcompat.app.AppCompatActivity;
+
+public class MainActivity extends AppCompatActivity {
+
+    RadioGroup radioGroupClass;
+    RadioButton rbFY, rbSY, rbTY;
+    CheckBox cbCpp, cbDS, cbDotNet, cbJava;
+    Button btnDisplay, btnClear;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        // Binding Views
+        radioGroupClass = findViewById(R.id.radioGroupClass);
+        rbFY = findViewById(R.id.rbFY);
+        rbSY = findViewById(R.id.rbSY);
+        rbTY = findViewById(R.id.rbTY);
+
+        cbCpp = findViewById(R.id.cbCpp);
+        cbDS = findViewById(R.id.cbDS);
+        cbDotNet = findViewById(R.id.cbDotNet);
+        cbJava = findViewById(R.id.cbJava);
+
+        btnDisplay = findViewById(R.id.btnDisplay);
+        btnClear = findViewById(R.id.btnClear);
+
+        // Display Button Click
+        btnDisplay.setOnClickListener(v -> {
+            StringBuilder result = new StringBuilder();
+
+            // Get selected RadioButton
+            int selectedId = radioGroupClass.getCheckedRadioButtonId();
+            if (selectedId != -1) {
+                RadioButton selectedRadio = findViewById(selectedId);
+                result.append(selectedRadio.getText().toString()).append("\n");
+            } else {
+                result.append("No class selected\n");
+            }
+
+            // Add selected CheckBoxes
+            if (cbCpp.isChecked()) result.append("C++\n");
+            if (cbDS.isChecked()) result.append("DS USING C\n");
+            if (cbDotNet.isChecked()) result.append("C#.NET\n");
+            if (cbJava.isChecked()) result.append("JAVA\n");
+
+            // Show result
+            Toast.makeText(MainActivity.this, result.toString(), Toast.LENGTH_LONG).show();
+        });
+
+        // Clear Button Click
+        btnClear.setOnClickListener(v -> {
+            radioGroupClass.clearCheck();
+            cbCpp.setChecked(false);
+            cbDS.setChecked(false);
+            cbDotNet.setChecked(false);
+            cbJava.setChecked(false);
+        });
+    }
+}
+
+4)
+📁 Step 1: Create a New Android Project
+Open ❱ Android Studio
+File > New > New Project ❱ "Empty Activity"
+Name: SwitchToggleDemo
+Language: Java
+Click Finish
+
+#activity_main.xml
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="24dp"
+    android:gravity="center_horizontal">
+
+    <!-- Title -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Switch and Toggle Button Demo"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="#6200EE"
+        android:layout_marginBottom="24dp"/>
+
+    <!-- Switches -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Bluetooth"
+        android:textSize="18sp"
+        android:layout_marginTop="10dp" />
+
+    <Switch
+        android:id="@+id/switchBluetooth"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="WiFi"
+        android:textSize="18sp"
+        android:layout_marginTop="16dp" />
+
+    <Switch
+        android:id="@+id/switchWifi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <!-- Toggle Button -->
+    <ToggleButton
+        android:id="@+id/toggleButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textOn="ON"
+        android:textOff="OFF"
+        android:layout_marginTop="24dp"
+        android:textSize="18sp"/>
+
+    <!-- Toggle message -->
+    <TextView
+        android:id="@+id/tvToggleMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textColor="#D50000"
+        android:textSize="16sp"
+        android:layout_marginTop="20dp"/>
+
+    <!-- Status message -->
+    <TextView
+        android:id="@+id/tvStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:textSize="16sp"/>
+</LinearLayout>
+
+#MainActivity.java
+
+package com.example.switchtoggledemo;
+
+import android.os.Bundle;
+import android.widget.CompoundButton;
+import android.widget.Switch;
+import android.widget.TextView;
+import android.widget.Toast;
+import android.widget.ToggleButton;
+import androidx.appcompat.app.AppCompatActivity;
+
+public class MainActivity extends AppCompatActivity {
+
+    Switch switchBluetooth, switchWifi;
+    ToggleButton toggleButton;
+    TextView tvToggleMessage, tvStatus;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        switchBluetooth = findViewById(R.id.switchBluetooth);
+        switchWifi = findViewById(R.id.switchWifi);
+        toggleButton = findViewById(R.id.toggleButton);
+        tvToggleMessage = findViewById(R.id.tvToggleMessage);
+        tvStatus = findViewById(R.id.tvStatus);
+
+        // Bluetooth Switch
+        switchBluetooth.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            String message = isChecked ? "Bluetooth is ON" : "Bluetooth is OFF";
+            Toast.makeText(MainActivity.this, message, Toast.LENGTH_SHORT).show();
+            tvStatus.setText(message);
+        });
+
+        // WiFi Switch
+        switchWifi.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            String message = isChecked ? "WiFi is ON" : "WiFi is OFF";
+            Toast.makeText(MainActivity.this, message, Toast.LENGTH_SHORT).show();
+            tvStatus.setText(message);
+        });
+
+        // Toggle Button
+        toggleButton.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                tvToggleMessage.setText("Wel Come as ur Toggle Button is ON");
+            } else {
+                tvToggleMessage.setText("");
+            }
+        });
+    }
+}
+
+
+SET B
+
+1)
+📁 Step 1: Create a New Project
+Open Android Studio
+Select "Empty Activity"
+Name it: RatingBarDemo
+Select Java as the Language
+Click Finish
+
+#activity_main.xml
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    android:padding="24dp">
+
+    <!-- Title -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Rating Demo"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="#D50000"
+        android:layout_marginBottom="24dp"/>
+
+    <!-- RatingBar -->
+    <RatingBar
+        android:id="@+id/ratingBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:numStars="5"
+        android:stepSize="1.0"
+        android:rating="3"
+        android:isIndicator="false"
+        android:layout_marginBottom="24dp"
+        style="@style/Widget.AppCompat.RatingBar"/>
+
+    <!-- TextView to Display Rating -->
+    <TextView
+        android:id="@+id/tvRating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Rating: 3.0"
+        android:textColor="#D50000"
+        android:textSize="18sp"
+        android:layout_marginBottom="24dp"/>
+
+    <!-- Optional: Toast-style design mimic -->
+    <TextView
+        android:id="@+id/tvToastStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hi: Rating : 3.0"
+        android:background="#EEEEEE"
+        android:padding="8dp"
+        android:textSize="14sp"
+        android:textColor="#555555"
+        android:layout_marginTop="16dp"/>
+</LinearLayout>
+
+#MainActivity.java
+
+package com.example.ratingbardemo;
+
+import androidx.appcompat.app.AppCompatActivity;
+import android.os.Bundle;
+import android.widget.RatingBar;
+import android.widget.TextView;
+import android.widget.Toast;
+
+public class MainActivity extends AppCompatActivity {
+
+    RatingBar ratingBar;
+    TextView tvRating, tvToastStyle;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        ratingBar = findViewById(R.id.ratingBar);
+        tvRating = findViewById(R.id.tvRating);
+        tvToastStyle = findViewById(R.id.tvToastStyle);
+
+        // Set listener on RatingBar
+        ratingBar.setOnRatingBarChangeListener((ratingBar, rating, fromUser) -> {
+            String ratingText = "Rating : " + rating;
+            tvRating.setText(ratingText);
+
+            // Mimic 'toast' style text below
+            tvToastStyle.setText("Hi: Rating : " + rating);
+
+            // Real Toast
+            Toast.makeText(MainActivity.this, "You rated: " + rating, Toast.LENGTH_SHORT).show();
+        });
+    }
+}
+
+2)
+📁 Step 1: Create a New Project
+Open Android Studio
+File > New > New Project > Empty Activity
+Name: StringOperationApp
+Language: Java
+Finish 💯
+
+#activity_main.xml
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#fff8dc"
+    android:padding="24dp">
+
+    <!-- Input Field -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Enter String:"/>
+
+    <EditText
+        android:id="@+id/etInput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Type string here"
+        android:layout_marginBottom="16dp"/>
+
+    <!-- Radio group -->
+    <RadioGroup
+        android:id="@+id/radioGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <RadioButton
+            android:id="@+id/radioUpper"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Uppercase"
+            android:checked="true" />
+
+        <RadioButton
+            android:id="@+id/radioLower"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Lowercase" />
+
+        <RadioButton
+            android:id="@+id/radioRight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Right 5 Character" />
+
+        <RadioButton
+            android:id="@+id/radioLeft"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Left 5 Character" />
+    </RadioGroup>
+
+    <!-- Button -->
+    <Button
+        android:id="@+id/btnClick"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Click"
+        android:layout_marginTop="16dp"/>
+
+    <!-- Output View -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Output:"
+        android:layout_marginTop="24dp"/>
+
+    <EditText
+        android:id="@+id/etOutput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:focusable="false"
+        android:clickable="false"
+        android:enabled="false"
+        android:textColor="#000000"
+        android:textStyle="bold"
+        android:layout_marginTop="8dp"/>
+
+</LinearLayout>
+
+#MainActivity.java
+
+package com.example.stringoperationapp;
+
+import androidx.appcompat.app.AppCompatActivity;
+import android.os.Bundle;
+import android.widget.*;
+
+public class MainActivity extends AppCompatActivity {
+
+    EditText etInput, etOutput;
+    RadioGroup radioGroup;
+    RadioButton radioUpper, radioLower, radioRight, radioLeft;
+    Button btnClick;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        
+        // Bind views
+        etInput = findViewById(R.id.etInput);
+        etOutput = findViewById(R.id.etOutput);
+        radioGroup = findViewById(R.id.radioGroup);
+        radioUpper = findViewById(R.id.radioUpper);
+        radioLower = findViewById(R.id.radioLower);
+        radioRight = findViewById(R.id.radioRight);
+        radioLeft = findViewById(R.id.radioLeft);
+        btnClick = findViewById(R.id.btnClick);
+
+        btnClick.setOnClickListener(view -> {
+            String inputText = etInput.getText().toString();
+            String result = "";
+
+            if (inputText.isEmpty()) {
+                Toast.makeText(MainActivity.this, "Please enter a string", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            // Identify selected radio button
+            int selectedId = radioGroup.getCheckedRadioButtonId();
+
+            if (selectedId == R.id.radioUpper) {
+                result = inputText.toUpperCase();
+            } else if (selectedId == R.id.radioLower) {
+                result = inputText.toLowerCase();
+            } else if (selectedId == R.id.radioRight) {
+                if (inputText.length() > 5) {
+                    result = inputText.substring(inputText.length() - 5);
+                } else {
+                    result = inputText;
+                }
+            } else if (selectedId == R.id.radioLeft) {
+                if (inputText.length() > 5) {
+                    result = inputText.substring(0, 5);
+                } else {
+                    result = inputText;
+                }
+            }
+
+            // Set and show output
+            etOutput.setText(result);
+            Toast.makeText(MainActivity.this, "Result: " + result, Toast.LENGTH_SHORT).show(); 
+        });
+    }
+}
+
+3)
+📁 Step 1: Create a New Project
+Android Studio → New Project → Empty Activity
+App Name: IntentImageDemo
+Language: Java
+Finish ✅
+🧩 Step 2: Add Images to res/drawable
+Add 4 images to res/drawable/ folder:
+
+apple.jpg
+banana.jpg
+watermelon.jpg
+mango.jpg
+🔔 Make sure file names are all lowercase and have no spaces!
+
+#activity_main.xml
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:gravity="center_horizontal">
+
+    <TextView
+        android:id="@+id/tvHint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="1-Apple  2-Banana  3-Watermelon  4-Mango"
+        android:layout_marginBottom="20dp"
+        android:textSize="16sp"/>
+
+    <EditText
+        android:id="@+id/etInput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter a number 1–4"
+        android:inputType="number"/>
+
+    <Button
+        android:id="@+id/btnShowImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Show Image"
+        android:layout_marginTop="20dp"
+        android:backgroundTint="#6200EE"
+        android:textColor="#FFFFFF"/>
+</LinearLayout>
+
+#activity_image.xml
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="300dp"
+        android:layout_height="200dp"
+        android:scaleType="centerCrop"
+        android:contentDescription="Fruit Image"/>
+</LinearLayout>
+
+#MainActivity.java
+
+package com.example.intentimagedemo;
+
+import androidx.appcompat.app.AppCompatActivity;
+import android.content.Intent;
+import android.os.Bundle;
+import android.widget.*;
+
+public class MainActivity extends AppCompatActivity {
+
+    EditText etInput;
+    Button btnShowImage;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        
+        etInput = findViewById(R.id.etInput);
+        btnShowImage = findViewById(R.id.btnShowImage);
+
+        btnShowImage.setOnClickListener(v -> {
+            String input = etInput.getText().toString().trim();
+            if (input.isEmpty()) {
+                Toast.makeText(this, "Please enter a number 1-4", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            int selected = Integer.parseInt(input);
+            if (selected < 1 || selected > 4) {
+                Toast.makeText(this, "Invalid number! Choose 1 to 4", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            // Invoke ImageActivity
+            Intent intent = new Intent(MainActivity.this, ImageActivity.class);
+            intent.putExtra("image_id", selected);
+            startActivity(intent);
+        });
+    }
+}
+
+#ImageActivity.java
+
+package com.example.intentimagedemo;
+
+import androidx.appcompat.app.AppCompatActivity;
+import android.os.Bundle;
+import android.widget.ImageView;
+
+public class ImageActivity extends AppCompatActivity {
+
+    ImageView imageView;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_image);
+
+        imageView = findViewById(R.id.imageView);
+
+        int imageId = getIntent().getIntExtra("image_id", 0);
+        int imageRes = R.drawable.apple; // default
+
+        switch (imageId) {
+            case 1:
+                imageRes = R.drawable.apple;
+                break;
+            case 2:
+                imageRes = R.drawable.banana;
+                break;
+            case 3:
+                imageRes = R.drawable.watermelon;
+                break;
+            case 4:
+                imageRes = R.drawable.mango;
+                break;
+        }
+
+        imageView.setImageResource(imageRes);
+    }
+}
+
+Register ImageActivity in AndroidManifest.xml
+Add inside <application> tag:
+
+<activity android:name=".ImageActivity" />
+
+
+4)
+📁 Step 1: Create a new Android Project (if needed)
+Android Studio → New Project → "Empty Activity"
+Name it: LayoutBorderApp
+Language: Java or Kotlin
+
+🎨 Step 2: Create a Drawable XML for the Border
+Go to:
+res > drawable > New > Drawable Resource File
+
+#border_background.xml
+
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+
+    <!-- Background color -->
+    <solid android:color="#3F51B5" /> <!-- Blue background -->
+
+    <!-- Border (stroke) -->
+    <stroke
+        android:width="5dp"
+        android:color="#BDBDBD" /> <!-- Light gray border -->
+
+    <!-- Optional: Rounded corners -->
+    <corners android:radius="10dp" />
+</shape>
+
+#activity_main.xml
+
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#000000"> <!-- Black background -->
+
+    <LinearLayout
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:background="@drawable/border_background">
+
+        <TextView
+            android:id="@+id/tvMessage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hello World!"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"
+            android:textStyle="bold"/>
+    </LinearLayout>
+</RelativeLayout>
+
+
+SET C
+
+1)
+📁 Step 1: Add Your Images to res/drawable
+Images like:
+
+img1.jpg
+img2.jpg
+img3.jpg
+Ensure the filenames are lowercase with no special characters.
+
+#activity_main.xml
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- ImageSwitcher -->
+    <ImageSwitcher
+        android:id="@+id/imageSwitcher"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_marginBottom="20dp" />
+
+    <!-- Buttons -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <Button
+            android:id="@+id/btnPrev"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="PREV" />
+
+        <Button
+            android:id="@+id/btnNext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="NEXT"
+            android:layout_marginStart="16dp" />
+    </LinearLayout>
+
+</LinearLayout>
+
+#MainActivity.java
+
+package com.example.imageswitcherdemo;
+
+import android.os.Bundle;
+import android.view.View;
+import android.view.animation.AnimationUtils;
+import android.widget.Button;
+import android.widget.ImageSwitcher;
+import android.widget.ImageView;
+import android.widget.ViewSwitcher;
+import androidx.appcompat.app.AppCompatActivity;
+
+public class MainActivity extends AppCompatActivity {
+
+    ImageSwitcher imageSwitcher;
+    Button btnPrev, btnNext;
+
+    int imageIds[] = {
+            R.drawable.img1,
+            R.drawable.img2,
+            R.drawable.img3
+    };
+
+    int currentIndex = 0;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        
+        imageSwitcher = findViewById(R.id.imageSwitcher);
+        btnPrev = findViewById(R.id.btnPrev);
+        btnNext = findViewById(R.id.btnNext);
+
+        // Set factory for ImageSwitcher
+        imageSwitcher.setFactory(() -> {
+            ImageView imageView = new ImageView(getApplicationContext());
+            imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
+            imageView.setLayoutParams(new 
+                ImageSwitcher.LayoutParams(
+                    ImageSwitcher.LayoutParams.MATCH_PARENT,
+                    ImageSwitcher.LayoutParams.MATCH_PARENT));
+            return imageView;
+        });
+
+        // Set animations (optional)
+        imageSwitcher.setInAnimation(AnimationUtils.loadAnimation(this, android.R.anim.slide_in_left));
+        imageSwitcher.setOutAnimation(AnimationUtils.loadAnimation(this, android.R.anim.slide_out_right));
+
+        // Set initial image
+        imageSwitcher.setImageResource(imageIds[currentIndex]);
+
+        // Prev Button
+        btnPrev.setOnClickListener(view -> {
+            currentIndex--;
+            if (currentIndex < 0) {
+                currentIndex = imageIds.length - 1;
+            }
+            imageSwitcher.setImageResource(imageIds[currentIndex]);
+        });
+
+        // Next Button
+        btnNext.setOnClickListener(view -> {
+            currentIndex++;
+            if (currentIndex >= imageIds.length) {
+                currentIndex = 0;
+            }
+            imageSwitcher.setImageResource(imageIds[currentIndex]);
+        });
+    }
+}
+
+Register in Manifest (Default Activity)
+If you created a new Activity:
+
+<activity android:name=".MainActivity">
+    <intent-filter>
+        <action android:name="android.intent.action.MAIN"/>
+        <category android:name="android.intent.category.LAUNCHER"/>
+    </intent-filter>
+</activity>
+
+
+2)
+📁 Step 1: Create New Android Project
+Open Android Studio → New Project → Empty Activity
+Name: DecimalToBinaryConverter
+Language: Java
+Click Finish
+
+#activity_main.xml
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:gravity="center"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- Title -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Numeral System"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="20dp" />
+
+    <!-- Decimal Input -->
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="space-between"
+        android:layout_marginBottom="12dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="DEC"
+            android:textSize="18sp"/>
+        <TextView
+            android:id="@+id/tvDecimal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0"
+            android:textSize="18sp"
+            android:textColor="#FF5722"/>
+    </LinearLayout>
+
+    <!-- Binary Output -->
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="space-between"
+        android:layout_marginBottom="24dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="BIN"
+            android:textSize="18sp"/>
+        <TextView
+            android:id="@+id/tvBinary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0"
+            android:textSize="18sp"/>
+    </LinearLayout>
+
+    <!-- Keypad -->
+    <GridLayout
+        android:id="@+id/numpad"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:columnCount="3"
+        android:rowCount="4"
+        android:alignmentMode="alignBounds"
+        android:useDefaultMargins="true">
+
+        <!-- Buttons 0-9 -->
+        <Button android:id="@+id/btn7" android:text="7" style="@style/KeyStyle"/>
+        <Button android:id="@+id/btn8" android:text="8" style="@style/KeyStyle"/>
+        <Button android:id="@+id/btn9" android:text="9" style="@style/KeyStyle"/>
+        <Button android:id="@+id/btn4" android:text="4" style="@style/KeyStyle"/>
+        <Button android:id="@+id/btn5" android:text="5" style="@style/KeyStyle"/>
+        <Button android:id="@+id/btn6" android:text="6" style="@style/KeyStyle"/>
+        <Button android:id="@+id/btn1" android:text="1" style="@style/KeyStyle"/>
+        <Button android:id="@+id/btn2" android:text="2" style="@style/KeyStyle"/>
+        <Button android:id="@+id/btn3" android:text="3" style="@style/KeyStyle"/>
+        <Button android:id="@+id/btnAC" android:text="AC" style="@style/KeyStyle"/>
+        <Button android:id="@+id/btn0" android:text="0" style="@style/KeyStyle"/>
+        <Button android:id="@+id/btnDel" android:text="⌫" style="@style/KeyStyle"/>
+    </GridLayout>
+</LinearLayout>
+
+🎨 Custom Style (Optional)
+Add to res/values/styles.xml:
+
+<style name="KeyStyle">
+    <item name="android:layout_width">100dp</item>
+    <item name="android:layout_height">60dp</item>
+    <item name="android:textSize">18sp</item>
+    <item name="android:background">?android:selectableItemBackground</item>
+</style>
+
+#MainActivity.java
+
+package com.example.decimaltobinaryconverter;
+
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
+import androidx.appcompat.app.AppCompatActivity;
+
+public class MainActivity extends AppCompatActivity {
+
+    TextView tvDecimal, tvBinary;
+    StringBuilder input = new StringBuilder();  // to store user input
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        tvDecimal = findViewById(R.id.tvDecimal);
+        tvBinary = findViewById(R.id.tvBinary);
+
+        // Button IDs
+        int[] btnIds = {
+                R.id.btn0, R.id.btn1, R.id.btn2, R.id.btn3, R.id.btn4,
+                R.id.btn5, R.id.btn6, R.id.btn7, R.id.btn8, R.id.btn9
+        };
+
+        View.OnClickListener numClickListener = view -> {
+            Button b = (Button) view;
+            input.append(b.getText().toString());
+            updateConversion();
+        };
+
+        for (int id : btnIds) {
+            findViewById(id).setOnClickListener(numClickListener);
+        }
+
+        // Clear Button
+        findViewById(R.id.btnAC).setOnClickListener(v -> {
+            input.setLength(0);
+            updateConversion();
+        });
+
+        // Delete Button
+        findViewById(R.id.btnDel).setOnClickListener(v -> {
+            if (input.length() > 0) {
+                input.deleteCharAt(input.length() - 1);
+                updateConversion();
+            }
+        });
+
+        // Initial update
+        updateConversion();
+    }
+
+    private void updateConversion() {
+        String decimalStr = input.toString();
+        tvDecimal.setText(decimalStr.isEmpty() ? "0" : decimalStr);
+
+        try {
+            int decimalValue = Integer.parseInt(decimalStr);
+            tvBinary.setText(Integer.toBinaryString(decimalValue));
+        } catch (NumberFormatException e) {
+            tvBinary.setText("0");
+        }
+    }
+}

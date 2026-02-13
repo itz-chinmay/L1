@@ -1,0 +1,1609 @@
+1. Create the Project
+Open Android Studio and select New Project.
+
+Choose Empty Views Activity (Important: Don't choose "Empty Activity" if you want to use XML layouts).
+
+Name your project (e.g., "HelloIntent") and ensure the language is set to Java.
+
+2. Setting up the Files
+In the Project window (usually on the left), navigate to these specific folders:
+
+A. The Layouts (UI)
+Go to app > res > layout.
+
+activity_main.xml: Open this and paste the first XML code block from my previous message.
+
+activity_second.xml: Right-click the layout folder > New > Layout Resource File. Name it activity_second and paste the second XML block.
+
+B. The Logic (Java)
+Go to app > java > com.yourname.hellointent.
+
+MainActivity.java: Open this and paste the logic inside the onCreate method.
+
+SecondActivity.java: Right-click your package name > New > Java Class. Name it SecondActivity. Make sure it extends AppCompatActivity as shown in my previous message.
+
+C. The Manifest (The Map)
+Go to app > manifests > AndroidManifest.xml.
+
+Inside the <application> tag, ensure your SecondActivity is listed. Android Studio often does this automatically, but always double-check.
+
+3. How to Execute (Run)
+Once your files are saved and there are no red underlines (errors), follow these steps:
+
+Connect a Device:
+
+Physical Device: Enable "USB Debugging" in your phone's Developer Options and plug it in.
+
+Emulator: Click the Device Manager (top right icon) and create a Virtual Device (like a Pixel 7).
+
+Select Device: In the top toolbar, select your device from the dropdown menu.
+
+Run: Click the Green Play Button (Run 'app') or press Shift + F10.
+
+-------------------------------------------------
+📁 Step 1: Create a New Project
+Open Android Studio.
+Click on New Project.
+Select Empty Activity.
+Name your application: ActivityLifeCycleDemo.
+Set Language to Java.
+Finish.
+--------------------------------------------------
+
+
+ASSIGNMENT 1
+
+SET A
+
+1)
+#MainActivity.java
+
+package com.example.activitylifecycle;
+
+import android.os.Bundle;
+import android.widget.Toast;
+import android.util.Log;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+public class MainActivity extends AppCompatActivity {
+
+    private static final String TAG = "LifeCycleDemo";
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        showToastAndLog("onCreate");
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        showToastAndLog("onStart");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        showToastAndLog("onResume");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        showToastAndLog("onPause");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        showToastAndLog("onStop");
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        showToastAndLog("onRestart");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        showToastAndLog("onDestroy");
+    }
+
+    private void showToastAndLog(String methodName) {
+        Toast.makeText(this, methodName, Toast.LENGTH_SHORT).show();
+        Log.d(TAG, methodName);
+    }
+}
+
+#activity_main.xml
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" 
+    android:layout_height="match_parent"
+    android:orientation="vertical" 
+    android:gravity="center"
+    android:padding="24dp">
+
+    <TextView
+        android:id="@+id/tv_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Activity Life Cycle Demo"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+</LinearLayout>
+
+
+2)
+✅ Step 1: Create a New Android Project
+Open Android Studio.
+Click File > New > New Project.
+Choose Empty Activity.
+Name it: IntentHelloApp
+Language: Java
+Package name: com.example.intenthelloapp
+Finish (wait for Gradle to build).
+
+✅ Step 2: Create Two Activities
+When you create the project, an activity called MainActivity is already there. Now, create a second activity.
+
+➕ To add a second activity:
+Right-click on java/com.example.intenthelloapp > New > Activity > Empty Activity.
+Name it: SecondActivity
+Click Finish.
+
+#activity_main.xml (First Activity)
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:gravity="center">
+
+    <Button
+        android:id="@+id/btnSend"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Send Hello" />
+</LinearLayout>
+
+#activity_second.xml (Second Activity)
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="24dp"
+    android:orientation="vertical"
+    android:gravity="center">
+
+    <TextView
+        android:id="@+id/tvReceivedMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="No message yet"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+</LinearLayout>
+
+#MainActivity.java
+
+package com.example.intenthelloapp;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+public class MainActivity extends AppCompatActivity {
+
+    Button btnSend;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        btnSend = findViewById(R.id.btnSend);
+
+        btnSend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, SecondActivity.class);
+                intent.putExtra("message", "Hello");
+                startActivity(intent);
+            }
+        });
+    }
+}
+
+#SecondActivity.java
+
+package com.example.intenthelloapp;
+
+import android.os.Bundle;
+import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+public class SecondActivity extends AppCompatActivity {
+
+    TextView tvReceivedMessage;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_second);
+
+        tvReceivedMessage = findViewById(R.id.tvReceivedMessage);
+
+        // Get the Intent message
+        String message = getIntent().getStringExtra("message");
+        if (message != null) {
+            tvReceivedMessage.setText(message);
+        }
+    }
+}
+
+✅ Step 5: Update AndroidManifest.xml
+You need to declare the second activity in the AndroidManifest.xml.
+
+<application
+    ... >
+    
+    <activity android:name=".SecondActivity" />
+    
+    <activity android:name=".MainActivity">
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
+    </activity>
+</application>
+
+3)
+✅ Step 1: Create a New Android Studio Project
+Open Android Studio.
+Click File > New > New Project.
+Choose Empty Activity.
+Name: FactorialApp
+Language: Java
+Finish and wait for the project to build.
+✅ Step 2: Create a Second Activity
+You already have MainActivity.java.
+
+Now, create the second activity:
+
+Right-click on java > com.example.factorialapp > New > Activity > Empty Activity
+Name it: ResultActivity
+Click Finish.
+
+#activity_main.xml
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding="24dp">
+
+    <EditText
+        android:id="@+id/etNumber"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter a positive number"
+        android:inputType="number" />
+
+    <Button
+        android:id="@+id/btnCalculate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Calculate Factorial"
+        android:layout_marginTop="16dp"/>
+</LinearLayout>
+
+#activity_result.xml
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="24dp">
+
+    <TextView
+        android:id="@+id/tvResult"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Result"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+</LinearLayout>
+
+#MainActivity.java
+
+package com.example.factorialapp;
+
+import androidx.appcompat.app.AppCompatActivity;
+import android.content.Intent;
+import android.os.Bundle;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+
+public class MainActivity extends AppCompatActivity {
+
+    EditText etNumber;
+    Button btnCalculate;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        
+        etNumber = findViewById(R.id.etNumber);
+        btnCalculate = findViewById(R.id.btnCalculate);
+
+        btnCalculate.setOnClickListener(view -> {
+            String input = etNumber.getText().toString().trim();
+            
+            if (input.isEmpty()) {
+                Toast.makeText(MainActivity.this, "Please enter a number", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            int number = Integer.parseInt(input);
+
+            if (number < 0) {
+                Toast.makeText(MainActivity.this, "Please enter a positive number", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            // Send the number to ResultActivity
+            Intent intent = new Intent(MainActivity.this, ResultActivity.class);
+            intent.putExtra("number", number);
+            startActivity(intent);
+        });
+    }
+}
+
+#ResultActivity.java
+
+package com.example.factorialapp;
+
+import androidx.appcompat.app.AppCompatActivity;
+import android.os.Bundle;
+import android.widget.TextView;
+
+public class ResultActivity extends AppCompatActivity {
+
+    TextView tvResult;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_result);
+
+        tvResult = findViewById(R.id.tvResult);
+
+        // Get number from Intent
+        int number = getIntent().getIntExtra("number", 0);
+
+        // Calculate Factorial
+        long factorial = 1;
+        for (int i = 1; i <= number; i++) {
+            factorial *= i;
+        }
+
+        // Show result
+        tvResult.setText("Factorial of " + number + " is " + factorial);
+    }
+}
+
+✅ Step 5: Add Activity to Manifest
+Open AndroidManifest.xml and make sure both activities are declared:
+
+<application
+    ...>
+    
+    <activity android:name=".ResultActivity" />
+    <activity android:name=".MainActivity">
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN"/>
+            <category android:name="android.intent.category.LAUNCHER"/>
+        </intent-filter>
+    </activity>
+</application>
+
+4)
+✅ Step 1: Create a New Project in Android Studio
+Open Android Studio
+Choose New Project > Empty Activity
+Name it: ArithmeticOperation
+Language: Java
+Click Finish
+✅ Step 2: Design UI in activity_main.xml
+Open res > layout > activity_main.xml and replace the content with:
+
+#activity_main.xml
+
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <!-- Title -->
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Arithmetic Operation"
+        android:textColor="#D50000"
+        android:textSize="24sp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="32dp"/>
+
+    <!-- First Number -->
+    <EditText
+        android:id="@+id/etNum1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Enter first number"
+        android:inputType="numberDecimal"
+        app:layout_constraintTop_toBottomOf="@id/tvTitle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_margin="16dp" />
+
+    <!-- Second Number -->
+    <EditText
+        android:id="@+id/etNum2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Enter second number"
+        android:inputType="numberDecimal"
+        app:layout_constraintTop_toBottomOf="@id/etNum1"
+        app:layout_constraintStart_toStartOf="@id/etNum1"
+        app:layout_constraintEnd_toEndOf="@id/etNum1"
+        android:layout_marginTop="16dp" />
+
+    <!-- Result Text -->
+    <TextView
+        android:id="@+id/tvResult"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Result will appear here"
+        android:textSize="18sp"
+        android:textColor="#000000"
+        app:layout_constraintTop_toBottomOf="@id/etNum2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="20dp" />
+
+    <!-- Buttons -->
+    <Button
+        android:id="@+id/btnAdd"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="ADD"
+        android:textColor="#FFFFFF"
+        android:backgroundTint="#4A148C"
+        app:layout_constraintTop_toBottomOf="@id/tvResult"
+        app:layout_constraintStart_toStartOf="@id/etNum2"
+        app:layout_constraintEnd_toStartOf="@id/btnSubtract"
+        app:layout_constraintWidth_percent="0.45"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="24dp"/>
+
+    <Button
+        android:id="@+id/btnSubtract"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="SUBTRACT"
+        android:textColor="#FFFFFF"
+        android:backgroundTint="#4A148C"
+        app:layout_constraintTop_toTopOf="@id/btnAdd"
+        app:layout_constraintEnd_toEndOf="@id/etNum2"
+        app:layout_constraintStart_toEndOf="@id/btnAdd"
+        app:layout_constraintWidth_percent="0.45"
+        android:layout_marginStart="8dp"/>
+
+    <Button
+        android:id="@+id/btnMultiply"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="MULTIPLY"
+        android:textColor="#FFFFFF"
+        android:backgroundTint="#4A148C"
+        app:layout_constraintTop_toBottomOf="@id/btnAdd"
+        app:layout_constraintStart_toStartOf="@id/btnAdd"
+        app:layout_constraintWidth_percent="0.45"
+        android:layout_marginTop="16dp"/>
+
+    <Button
+        android:id="@+id/btnDivide"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="DIVISION"
+        android:textColor="#FFFFFF"
+        android:backgroundTint="#4A148C"
+        app:layout_constraintTop_toTopOf="@id/btnMultiply"
+        app:layout_constraintStart_toEndOf="@id/btnMultiply"
+        app:layout_constraintEnd_toEndOf="@id/btnSubtract"
+        app:layout_constraintWidth_percent="0.45"
+        android:layout_marginStart="8dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+#MainActivity.java
+
+package com.example.arithmeticoperation;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
+
+public class MainActivity extends AppCompatActivity {
+
+    EditText etNum1, etNum2;
+    TextView tvResult;
+    Button btnAdd, btnSubtract, btnMultiply, btnDivide;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        etNum1 = findViewById(R.id.etNum1);
+        etNum2 = findViewById(R.id.etNum2);
+        tvResult = findViewById(R.id.tvResult);
+        btnAdd = findViewById(R.id.btnAdd);
+        btnSubtract = findViewById(R.id.btnSubtract);
+        btnMultiply = findViewById(R.id.btnMultiply);
+        btnDivide = findViewById(R.id.btnDivide);
+
+        btnAdd.setOnClickListener(v -> calculate('+'));
+        btnSubtract.setOnClickListener(v -> calculate('-'));
+        btnMultiply.setOnClickListener(v -> calculate('*'));
+        btnDivide.setOnClickListener(v -> calculate('/'));
+    }
+
+    private void calculate(char operation) {
+        String num1Str = etNum1.getText().toString().trim();
+        String num2Str = etNum2.getText().toString().trim();
+
+        if (num1Str.isEmpty() || num2Str.isEmpty()) {
+            Toast.makeText(this, "Please enter both numbers", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        double num1 = Double.parseDouble(num1Str);
+        double num2 = Double.parseDouble(num2Str);
+        double result = 0;
+
+        switch (operation) {
+            case '+':
+                result = num1 + num2;
+                tvResult.setText("Addition: " + result);
+                break;
+            case '-':
+                result = num1 - num2;
+                tvResult.setText("Subtraction: " + result);
+                break;
+            case '*':
+                result = num1 * num2;
+                tvResult.setText("Multiplication: " + result);
+                break;
+            case '/':
+                if (num2 == 0) {
+                    Toast.makeText(this, "Cannot divide by zero", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                result = num1 / num2;
+                tvResult.setText("Division: " + result);
+                break;
+        }
+    }
+}
+
+
+SET B
+
+1)
+📁 Step 1: Create a New Project
+File → New → New Project → Empty Activity
+Name: StudentDetailsApp
+Language: Java
+✅ Step 2: Create Two Activities
+MainActivity – for input
+DisplayActivity – for output
+Create the second activity:
+
+Right-click java > com.example.studentdetailsapp > New > Activity > Empty Activity
+Name: DisplayActivity
+Click Finish
+
+#activity_main.xml
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
+
+        <!-- Name -->
+        <EditText
+            android:id="@+id/etName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="Enter Name"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <!-- Surname -->
+        <EditText
+            android:id="@+id/etSurname"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="Enter Surname"
+            app:layout_constraintTop_toBottomOf="@id/etName"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="12dp" />
+
+        <!-- Class -->
+        <EditText
+            android:id="@+id/etClass"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="Enter Class"
+            app:layout_constraintTop_toBottomOf="@id/etSurname"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="12dp" />
+
+        <!-- Gender -->
+        <RadioGroup
+            android:id="@+id/rgGender"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@id/etClass"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="16dp">
+
+            <RadioButton
+                android:id="@+id/rbMale"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Male" />
+
+            <RadioButton
+                android:id="@+id/rbFemale"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Female"
+                android:layout_marginStart="16dp" />
+        </RadioGroup>
+
+        <!-- Hobbies -->
+        <CheckBox
+            android:id="@+id/cbReading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Reading"
+            app:layout_constraintTop_toBottomOf="@id/rgGender"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="16dp"/>
+
+        <CheckBox
+            android:id="@+id/cbWriting"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Writing"
+            app:layout_constraintTop_toBottomOf="@id/cbReading"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="8dp"/>
+
+        <CheckBox
+            android:id="@+id/cbSports"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sports"
+            app:layout_constraintTop_toBottomOf="@id/cbWriting"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="8dp"/>
+
+        <!-- Marks -->
+        <EditText
+            android:id="@+id/etMarks"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="Enter Marks"
+            android:inputType="number"
+            app:layout_constraintTop_toBottomOf="@id/cbSports"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="16dp"/>
+
+        <!-- Submit Button -->
+        <Button
+            android:id="@+id/btnSubmit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Submit"
+            app:layout_constraintTop_toBottomOf="@id/etMarks"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="20dp"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
+
+#MainActivity.java
+
+package com.example.studentdetailsapp;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.widget.*;
+
+public class MainActivity extends AppCompatActivity {
+
+    EditText etName, etSurname, etClass, etMarks;
+    RadioGroup rgGender;
+    CheckBox cbReading, cbWriting, cbSports;
+    Button btnSubmit;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        etName = findViewById(R.id.etName);
+        etSurname = findViewById(R.id.etSurname);
+        etClass = findViewById(R.id.etClass);
+        etMarks = findViewById(R.id.etMarks);
+
+        rgGender = findViewById(R.id.rgGender);
+        cbReading = findViewById(R.id.cbReading);
+        cbWriting = findViewById(R.id.cbWriting);
+        cbSports = findViewById(R.id.cbSports);
+
+        btnSubmit = findViewById(R.id.btnSubmit);
+
+        btnSubmit.setOnClickListener(v -> {
+            String name = etName.getText().toString();
+            String surname = etSurname.getText().toString();
+            String studentClass = etClass.getText().toString();
+            String marks = etMarks.getText().toString();
+
+            int selectedGenderId = rgGender.getCheckedRadioButtonId();
+            RadioButton selectedGender = findViewById(selectedGenderId);
+            String gender = selectedGender != null ? selectedGender.getText().toString() : "Not Selected";
+
+            StringBuilder hobbies = new StringBuilder();
+            if (cbReading.isChecked()) hobbies.append("Reading ");
+            if (cbWriting.isChecked()) hobbies.append("Writing ");
+            if (cbSports.isChecked()) hobbies.append("Sports");
+
+            // Send data to DisplayActivity
+            Intent intent = new Intent(MainActivity.this, DisplayActivity.class);
+            intent.putExtra("name", name);
+            intent.putExtra("surname", surname);
+            intent.putExtra("class", studentClass);
+            intent.putExtra("gender", gender);
+            intent.putExtra("hobbies", hobbies.toString().trim());
+            intent.putExtra("marks", marks);
+
+            startActivity(intent);
+        });
+    }
+}
+
+#activity_display.xml
+
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="20dp">
+
+    <TableLayout
+        android:id="@+id/tableLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:stretchColumns="1"
+        android:background="#f0f0f0"
+        android:padding="8dp" />
+</ScrollView>
+
+#DisplayActivity.java
+
+package com.example.studentdetailsapp;
+
+import androidx.appcompat.app.AppCompatActivity;
+import android.os.Bundle;
+import android.widget.*;
+
+public class DisplayActivity extends AppCompatActivity {
+
+    TableLayout tableLayout;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_display);
+
+        tableLayout = findViewById(R.id.tableLayout);
+
+        // Get Extras
+        String name = getIntent().getStringExtra("name");
+        String surname = getIntent().getStringExtra("surname");
+        String studentClass = getIntent().getStringExtra("class");
+        String gender = getIntent().getStringExtra("gender");
+        String hobbies = getIntent().getStringExtra("hobbies");
+        String marks = getIntent().getStringExtra("marks");
+
+        // Add table rows
+        addRow("Name", name);
+        addRow("Surname", surname);
+        addRow("Class", studentClass);
+        addRow("Gender", gender);
+        addRow("Hobbies", hobbies);
+        addRow("Marks", marks);
+    }
+
+    private void addRow(String label, String value) {
+        TableRow row = new TableRow(this);
+
+        TextView tvLabel = new TextView(this);
+        tvLabel.setText(label + ":");
+        tvLabel.setPadding(16, 16, 16, 16);
+
+        TextView tvValue = new TextView(this);
+        tvValue.setText(value);
+        tvValue.setPadding(16, 16, 16, 16);
+
+        row.addView(tvLabel);
+        row.addView(tvValue);
+
+        tableLayout.addView(row);
+    }
+}
+
+#AndroidManifest.xml
+
+<application
+    ... >
+    <activity android:name=".DisplayActivity"/>
+    <activity android:name=".MainActivity">
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
+    </activity>
+</application>
+
+2)
+
+📁 Step 1: Create a New Android Project
+Open Android Studio
+Choose Empty Activity
+Name: LoginScreenApp
+Language: Java
+Finish.
+📃 Step 2: Create Two Activities
+MainActivity.java (Login screen)
+WelcomeActivity.java (Success activity)
+🟩 Create WelcomeActivity:
+Right-click on java > com.example.loginscreenapp > New > Activity > Empty Activity.
+Name: WelcomeActivity
+
+#activity_main.xml
+
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/tableLayoutLogin"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="40dp"
+    android:background="#64D8CB"
+    android:gravity="center"
+    android:stretchColumns="1">
+
+    <!-- Email Row -->
+    <TableRow>
+        <EditText
+            android:id="@+id/etEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Email"
+            android:inputType="textEmailAddress"
+            android:padding="12dp"
+            android:background="#FFFFFF" />
+    </TableRow>
+
+    <!-- Password Row -->
+    <TableRow>
+        <EditText
+            android:id="@+id/etPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Password"
+            android:inputType="textPassword"
+            android:padding="12dp"
+            android:background="#FFFFFF" />
+    </TableRow>
+
+    <!-- Login Button Row -->
+    <TableRow>
+        <Button
+            android:id="@+id/btnLogin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="LOGIN"
+            android:background="#EEEEEE"
+            android:textColor="#000000"
+            android:padding="12dp" />
+    </TableRow>
+    
+    <!-- Sign Up Text Row -->
+    <TableRow>
+        <TextView
+            android:id="@+id/tvSignup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Not a member? Sign up now."
+            android:textColor="#FFFFFF"
+            android:layout_gravity="center"
+            android:paddingTop="20dp" />
+    </TableRow>
+
+</TableLayout>
+
+#MainActivity.java
+
+package com.example.loginscreenapp;
+
+import androidx.appcompat.app.AppCompatActivity;
+import android.content.Intent;
+import android.os.Bundle;
+import android.widget.*;
+
+public class MainActivity extends AppCompatActivity {
+
+    EditText etEmail, etPassword;
+    Button btnLogin;
+
+    // Hardcoded credentials
+    private final String correctEmail = "admin@example.com";
+    private final String correctPassword = "12345";
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        etEmail = findViewById(R.id.etEmail);
+        etPassword = findViewById(R.id.etPassword);
+        btnLogin = findViewById(R.id.btnLogin);
+
+        btnLogin.setOnClickListener(view -> {
+            String email = etEmail.getText().toString().trim();
+            String password = etPassword.getText().toString().trim();
+
+            if (email.equals(correctEmail) && password.equals(correctPassword)) {
+                Toast.makeText(MainActivity.this, "Login successful!", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(MainActivity.this, WelcomeActivity.class);
+                startActivity(intent);
+            } else {
+                Toast.makeText(MainActivity.this, "Invalid email or password!", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+}
+
+#activity_welcome.xml
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:background="#E0F7FA"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/tvWelcome"
+        android:text="Welcome to the Application!"
+        android:textSize="24sp"
+        android:textColor="#00796B"
+        android:textStyle="bold"
+        android:layout_margin="25dp" />
+</LinearLayout>
+
+#WelcomeActivity.java
+
+package com.example.loginscreenapp;
+
+import androidx.appcompat.app.AppCompatActivity;
+import android.os.Bundle;
+
+public class WelcomeActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_welcome);
+    }
+}
+
+#AndroidManifest.xml
+
+<application
+    ... >
+
+    <activity android:name=".WelcomeActivity" />
+    <activity android:name=".MainActivity">
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
+    </activity>
+
+</application>
+
+3)
+🧩 Step 1: Create a New Project
+Open Android Studio
+Click "New Project"
+Choose "Empty Activity"
+Name it something like VerticalScrollViewApp
+Language: Java or Kotlin (we'll use Java here)
+Click Finish
+
+#activity_main.xml
+
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- LinearLayout inside ScrollView for vertical stacking -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- Buttons that will scroll vertically -->
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Button 1" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Button 2" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Button 3" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Button 4" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Button 5" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Button 6" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Button 7" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Button 8" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Button 9" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Button 10" 
+            android:background="#FF5722"
+            android:textColor="#FFFFFF"/>
+
+    </LinearLayout>
+</ScrollView>
+
+#MainActivity.java
+
+package com.example.verticalscrollviewapp;
+
+import androidx.appcompat.app.AppCompatActivity;
+import android.os.Bundle;
+
+public class MainActivity extends AppCompatActivity {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+    }
+}
+
+
+SET C
+
+1)
+📁 Step 1: Create a New Android Project
+Open Android Studio
+New Project > Empty Activity
+Name: CalculatorDemo
+Language: Java
+Finish
+
+#activity_main.xml
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="8dp"
+    android:background="#dcdcdc">
+
+    <!-- Display panel -->
+    <TextView
+        android:id="@+id/tvDisplay"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:gravity="end|center_vertical"
+        android:textSize="36sp"
+        android:text="0"
+        android:textColor="#D50000"
+        android:background="#A0A0A0"
+        android:padding="16dp"/>
+
+    <!-- Calculator Buttons Grid -->
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginTop="8dp">
+
+        <!-- Row 1 -->
+        <LinearLayout android:orientation="horizontal"
+            android:layout_width="match_parent" android:layout_height="wrap_content">
+            
+            <Button android:text="AC" style="@style/CalcButton" android:id="@+id/btnAC"/>
+            <Button android:text="+/-" style="@style/CalcButton" android:id="@+id/btnPlusMinus"/>
+            <Button android:text="/" style="@style/CalcButton" android:id="@+id/btnDivide"/>
+            <Button android:text="*" style="@style/CalcButton" android:id="@+id/btnMultiply"/>
+        </LinearLayout>
+
+        <!-- Row 2 -->
+        <LinearLayout android:orientation="horizontal"
+            android:layout_width="match_parent" android:layout_height="wrap_content">
+            
+            <Button android:text="7" style="@style/CalcButton" android:id="@+id/btn7"/>
+            <Button android:text="8" style="@style/CalcButton" android:id="@+id/btn8"/>
+            <Button android:text="9" style="@style/CalcButton" android:id="@+id/btn9"/>
+            <Button android:text="-" style="@style/CalcButton" android:id="@+id/btnMinus"/>
+        </LinearLayout>
+
+        <!-- Row 3 -->
+        <LinearLayout android:orientation="horizontal"
+            android:layout_width="match_parent" android:layout_height="wrap_content">
+            
+            <Button android:text="4" style="@style/CalcButton" android:id="@+id/btn4"/>
+            <Button android:text="5" style="@style/CalcButton" android:id="@+id/btn5"/>
+            <Button android:text="6" style="@style/CalcButton" android:id="@+id/btn6"/>
+            <Button android:text="+" style="@style/CalcButton" android:id="@+id/btnPlus"/>
+        </LinearLayout>
+
+        <!-- Row 4 -->
+        <LinearLayout android:orientation="horizontal"
+            android:layout_width="match_parent" android:layout_height="wrap_content">
+            
+            <Button android:text="1" style="@style/CalcButton" android:id="@+id/btn1"/>
+            <Button android:text="2" style="@style/CalcButton" android:id="@+id/btn2"/>
+            <Button android:text="3" style="@style/CalcButton" android:id="@+id/btn3"/>
+            <Button android:text="%" style="@style/CalcButton" android:id="@+id/btnMod"/>
+        </LinearLayout>
+
+        <!-- Row 5 -->
+        <LinearLayout android:orientation="horizontal"
+            android:layout_width="match_parent" android:layout_height="wrap_content">
+
+            <Button android:text="0" style="@style/CalcButton" android:id="@+id/btn0"/>
+            <Button android:text="." style="@style/CalcButton" android:id="@+id/btnDot"/>
+            <Button android:text="=" style="@style/CalcButton" android:id="@+id/btnEqual"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- Developer Footer -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Developed By : satish"
+        android:textColor="#D50000"
+        android:textSize="16sp"
+        android:layout_marginTop="8dp" />
+</LinearLayout>
+
+🔧 Custom Button Style (Optional):
+Add this to your res/values/styles.xml:
+
+<style name="CalcButton">
+    <item name="android:layout_weight">1</item>
+    <item name="android:layout_width">0dp</item>
+    <item name="android:layout_height">100dp</item>
+    <item name="android:textColor">#FFFFFF</item>
+    <item name="android:background">#6A1B9A</item>
+    <item name="android:textSize">18sp</item>
+    <item name="android:layout_margin">4dp</item>
+</style>
+
+#MainActivity.java
+
+package com.example.calculatordemo;
+
+import androidx.appcompat.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
+
+public class MainActivity extends AppCompatActivity {
+
+    TextView tvDisplay;
+    String current = "";
+    String operator = "";
+    Double firstNumber = null;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        tvDisplay = findViewById(R.id.tvDisplay);
+
+        int[] numBtnIDs = {
+                R.id.btn0, R.id.btn1, R.id.btn2, R.id.btn3, R.id.btn4,
+                R.id.btn5, R.id.btn6, R.id.btn7, R.id.btn8, R.id.btn9
+        };
+
+        // Number buttons
+        View.OnClickListener numListener = v -> {
+            Button b = (Button) v;
+            current += b.getText().toString();
+            tvDisplay.setText(current);
+        };
+
+        for (int id : numBtnIDs) {
+            findViewById(id).setOnClickListener(numListener);
+        }
+
+        // Operator Buttons
+        findViewById(R.id.btnPlus).setOnClickListener(v -> setOperator("+"));
+        findViewById(R.id.btnMinus).setOnClickListener(v -> setOperator("-"));
+        findViewById(R.id.btnMultiply).setOnClickListener(v -> setOperator("*"));
+        findViewById(R.id.btnDivide).setOnClickListener(v -> setOperator("/"));
+        findViewById(R.id.btnMod).setOnClickListener(v -> setOperator("%"));
+
+        // Dot Button
+        findViewById(R.id.btnDot).setOnClickListener(v -> {
+            if (!current.contains(".")) {
+                current += ".";
+                tvDisplay.setText(current);
+            }
+        });
+
+        // Equal Button
+        findViewById(R.id.btnEqual).setOnClickListener(v -> calculate());
+
+        // AC Button
+        findViewById(R.id.btnAC).setOnClickListener(v -> {
+            current = "";
+            operator = "";
+            firstNumber = null;
+            tvDisplay.setText("0");
+        });
+
+        // +/- Button
+        findViewById(R.id.btnPlusMinus).setOnClickListener(v -> {
+            if (!current.isEmpty()) {
+                if (current.startsWith("-"))
+                    current = current.substring(1);
+                else
+                    current = "-" + current;
+                tvDisplay.setText(current);
+            }
+        });
+    }
+
+    private void setOperator(String op) {
+        if (!current.isEmpty()) {
+            firstNumber = Double.parseDouble(current);
+            operator = op;
+            current = "";
+            tvDisplay.setText(operator);
+        }
+    }
+
+    private void calculate() {
+        if (firstNumber != null && !current.isEmpty()) {
+            double secondNumber = Double.parseDouble(current);
+            double result = 0;
+
+            switch (operator) {
+                case "+": result = firstNumber + secondNumber; break;
+                case "-": result = firstNumber - secondNumber; break;
+                case "*": result = firstNumber * secondNumber; break;
+                case "/": 
+                    if (secondNumber == 0) {
+                        tvDisplay.setText("Error");
+                        return;
+                    }
+                    result = firstNumber / secondNumber;
+                    break;
+                case "%": result = firstNumber % secondNumber; break;
+            }
+
+            current = String.valueOf(result);
+            tvDisplay.setText(current);
+            firstNumber = null;
+            operator = "";
+        }
+    }
+}
+
+2)
+Step 1: 🔧 Create a New Project
+Open Android Studio
+File > New > New Project → Empty Activity
+Name: CurrencyConverter
+Language: Java
+Finish
+
+#activity_main.xml
+
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+    <LinearLayout 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp"
+        android:gravity="center_horizontal">
+
+        <!-- Title -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Currency Converter"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="16dp" />
+
+        <!-- INR input label -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="INR -"
+            android:textSize="18sp"
+            android:layout_marginTop="10dp" />
+
+        <!-- INR display -->
+        <TextView
+            android:id="@+id/tvINR"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="0"
+            android:gravity="end"
+            android:textSize="28sp"
+            android:textColor="#FF6F00" />
+
+        <!-- USD -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="USD -"
+            android:textSize="18sp"
+            android:layout_marginTop="16dp" />
+
+        <TextView
+            android:id="@+id/tvUSD"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="0.000"
+            android:textSize="22sp"
+            android:textColor="#000000"
+            android:gravity="end" />
+
+        <!-- EUR -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="EUR -"
+            android:textSize="18sp"
+            android:layout_marginTop="16dp" />
+
+        <TextView
+            android:id="@+id/tvEUR"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="0.000"
+            android:textSize="22sp"
+            android:textColor="#000000"
+            android:gravity="end" />
+
+        <!-- Number Pad Starts -->
+        <GridLayout
+            android:id="@+id/keypad"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:columnCount="3">
+
+            <!-- Number Buttons (0-9 & dot) programmatically filled -->
+            <Button android:id="@+id/btn7" android:text="7" style="@style/CalcButton"/>
+            <Button android:id="@+id/btn8" android:text="8" style="@style/CalcButton"/>
+            <Button android:id="@+id/btn9" android:text="9" style="@style/CalcButton"/>
+            <Button android:id="@+id/btn4" android:text="4" style="@style/CalcButton"/>
+            <Button android:id="@+id/btn5" android:text="5" style="@style/CalcButton"/>
+            <Button android:id="@+id/btn6" android:text="6" style="@style/CalcButton"/>
+            <Button android:id="@+id/btn1" android:text="1" style="@style/CalcButton"/>
+            <Button android:id="@+id/btn2" android:text="2" style="@style/CalcButton"/>
+            <Button android:id="@+id/btn3" android:text="3" style="@style/CalcButton"/>
+            <Button android:id="@+id/btn0" android:text="0" style="@style/CalcButton"/>
+            <Button android:id="@+id/btnDot" android:text="." style="@style/CalcButton"/>
+            <Button android:id="@+id/btnAC" android:text="AC" style="@style/CalcButton"/>
+
+        </GridLayout>
+
+        <!-- Delete Button -->
+        <Button
+            android:id="@+id/btnDel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="⌫"
+            android:textSize="18sp"
+            android:layout_marginTop="10dp"/>
+    </LinearLayout>
+</ScrollView>
+
+🎨 Button Styling (Add in res/values/styles.xml)
+
+<style name="CalcButton">
+    <item name="android:layout_width">100dp</item>
+    <item name="android:layout_height">60dp</item>
+    <item name="android:layout_margin">6dp</item>
+    <item name="android:textSize">22sp</item>
+    <item name="android:background">#EEEEEE</item>
+</style>
+
+#MainActivity.java
+
+package com.example.currencyconverter;
+
+import androidx.appcompat.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.*;
+
+public class MainActivity extends AppCompatActivity {
+
+    TextView tvINR, tvUSD, tvEUR;
+    StringBuilder input = new StringBuilder();
+
+    // Fixed exchange rates
+    final double USD_RATE = 0.012; // 1 INR = 0.012 USD
+    final double EUR_RATE = 0.011; // 1 INR = 0.011 EUR
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        tvINR = findViewById(R.id.tvINR);
+        tvUSD = findViewById(R.id.tvUSD);
+        tvEUR = findViewById(R.id.tvEUR);
+
+        int[] btnIds = { R.id.btn0, R.id.btn1, R.id.btn2, R.id.btn3, R.id.btn4, 
+                         R.id.btn5, R.id.btn6, R.id.btn7, R.id.btn8, R.id.btn9, R.id.btnDot };
+
+        View.OnClickListener listener = v -> {
+            Button b = (Button) v;
+            input.append(b.getText().toString());
+            updateConversion();
+        };
+
+        for (int id : btnIds) {
+            findViewById(id).setOnClickListener(listener);
+        }
+
+        // Clear all
+        findViewById(R.id.btnAC).setOnClickListener(view -> {
+            input.setLength(0);
+            updateConversion();
+        });
+
+        // Delete last character
+        findViewById(R.id.btnDel).setOnClickListener(view -> {
+            if (input.length() > 0) {
+                input.deleteCharAt(input.length() - 1);
+                updateConversion();
+            }
+        });
+
+        updateConversion(); // Initialize display
+    }
+
+    private void updateConversion() {
+        String str = input.toString();
+        tvINR.setText(str.isEmpty() ? "0" : str);
+
+        try {
+            double inr = Double.parseDouble(str);
+            tvUSD.setText(String.format("%.4f", inr * USD_RATE));
+            tvEUR.setText(String.format("%.4f", inr * EUR_RATE));
+        } catch (NumberFormatException e) {
+            tvUSD.setText("0.0000");
+            tvEUR.setText("0.0000");
+        }
+    }
+}
